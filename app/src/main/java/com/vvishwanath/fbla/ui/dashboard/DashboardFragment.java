@@ -21,8 +21,8 @@ public class DashboardFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        Intent intent = new Intent(requireContext(), LunchMenuActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(requireContext(), LunchMenuActivity.class);
+//        startActivity(intent);
 
         return root;
     }
