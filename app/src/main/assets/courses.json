@@ -1,0 +1,83 @@
+{
+  "Subjects": [
+    {
+      "Class": "Math",
+      "Courses": [
+        "Algebra",
+        "Geometry",
+        "Precalculus",
+        "Statistics",
+        "Calculus"
+      ]
+    },
+    {
+      "Class": "Science",
+      "Courses": [
+        "Biology",
+        "Chemistry",
+        "Environmental Science",
+        "Physics",
+        "Computer Science"
+      ]
+    },
+    {
+      "Class": "English",
+      "Courses": [
+        "9th Lit/Comp",
+        "10th Lit/Comp",
+        "11th Lit/Comp",
+        "12th Lit/Comp",
+        "AP English Language",
+        "AP Literature"
+      ]
+    },
+    {
+      "Class": "Social Studies",
+      "Courses": [
+        "Government",
+        "Human Geography",
+        "World History",
+        "US History",
+        "European History",
+        "Economics",
+        "Psychology"
+      ]
+    },
+    {
+      "Class": "World Language",
+      "Courses": [
+        "Spanish",
+        "French",
+        "Chinese (Mandrain)",
+        "German",
+        "Latin",
+        "Japanese",
+        "Arabic",
+        "Italian"
+      ]
+    },
+    {
+      "Class": "Business",
+      "Courses": [
+        "Accounting",
+        "Finance",
+        "Information Technology",
+        "Entrepreneurship",
+        "Personal Finance",
+        "Marketing",
+        "Computer Applications"
+      ]
+    },
+    {
+      "Class": "Arts",
+      "Courses": [
+        "Orchestra",
+        "Chorus",
+        "Band",
+        "Music Theory",
+        "Art and Design",
+        "Art History"
+      ]
+    }
+  ]
+}

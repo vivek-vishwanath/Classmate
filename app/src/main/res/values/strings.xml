@@ -1,0 +1,27 @@
+<resources>
+
+    <string name="app_name">FBLA</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_search">Search</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_notifications">Notifications</string>
+
+
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="next">Next</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First name</string>
+    <string name="school">School</string>
+    <string name="todo">TODO</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="send_a_message">Send A Message</string>
+    <string name="handle">Handle</string>
+    <string name="grade">Grade</string>
+
+</resources>
