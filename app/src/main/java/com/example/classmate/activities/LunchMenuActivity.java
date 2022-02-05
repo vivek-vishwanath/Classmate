@@ -52,7 +52,6 @@ public class LunchMenuActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        Print.d("Screen Clicked");
         Intent intent = new Intent(this, LunchMenuActivity.class);
         intent.putExtra("date", date++);
         startActivity(intent);

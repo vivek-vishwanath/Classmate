@@ -1,6 +1,5 @@
 package com.example.classmate.ui.dashboard;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.classmate.R;
-import com.example.classmate.activities.NewForumActivity;
 import com.example.classmate.adapters.ForumAdapter;
 import com.example.classmate.databinding.FragmentDashboardBinding;
 import com.example.classmate.objects.Forum;
@@ -39,7 +37,6 @@ public class DashboardFragment extends Fragment {
 
     GridView gridView;
     FloatingActionButton addForumButton;
-    DialogInterface dialogInterface;
 
     ForumAdapter adapter;
 
@@ -52,11 +49,19 @@ public class DashboardFragment extends Fragment {
 
         View root = binding.getRoot();
 
+        firebase();
         setResourceObjects(root);
         setListeners();
         setGridView();
+        pullFromDatabase();
 
         return root;
+    }
+
+    private void firebase() {
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        userID = auth.getUid();
     }
 
     private void setResourceObjects(View root) {
@@ -79,22 +84,23 @@ public class DashboardFragment extends Fragment {
     }
 
     private void getForumIDS(DocumentSnapshot snapshot) {
-        ArrayList<String> forums = (ArrayList<String>) snapshot.get("forums");
-        if(forums == null) forums = new ArrayList<>();
-        for(String forum : forums)
-        firestore.collection("forums").document(forum).get()
-                .addOnSuccessListener(this::updateForums);
+        ArrayList<Map<String, ?>> forums = (ArrayList<Map<String, ?>>) snapshot.get("forums");
+        if (forums == null) forums = new ArrayList<>();
+        for (Map<String, ?> forum : forums)
+            firestore.collection("forums").document(Forum.Companion.from(forum).getUid()).get()
+                    .addOnSuccessListener(this::updateForums);
     }
 
     private void updateForums(DocumentSnapshot snapshot) {
         Map<String, ?> data = snapshot.getData();
-        if(data == null) return;
+        if (data == null) return;
         Forum forum = Forum.Companion.from(data);
         forums.add(forum);
         adapter.notifyDataSetChanged();
     }
 
     private void setGridView() {
+        forums = new ArrayList<>();
         adapter = new ForumAdapter(requireContext(), forums);
         gridView.setAdapter(adapter);
     }

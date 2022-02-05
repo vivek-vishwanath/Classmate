@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "572146872844",
-    "project_id": "fbla22",
-    "storage_bucket": "fbla22.appspot.com"
+    "project_number": "1002544468852",
+    "firebase_url": "https://classmate-df59d-default-rtdb.firebaseio.com",
+    "project_id": "classmate-df59d",
+    "storage_bucket": "classmate-df59d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:572146872844:android:80fa50b38a5c96f9593429",
+        "mobilesdk_app_id": "1:1002544468852:android:eaa33e72c94b25decd9221",
         "android_client_info": {
           "package_name": "com.example.classmate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "572146872844-b2e1qkhtthgjmjejc79ks4ck7muunq8t.apps.googleusercontent.com",
+          "client_id": "1002544468852-q17ggb93ciu3spf4knes5kecvht9tdcb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvDzTlYv3wuBlcKscOIF0NLHcgYyWvZPE"
+          "current_key": "AIzaSyC3fAqq003Vw6JCx60HTFafNR2V2RP5Upg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "572146872844-b2e1qkhtthgjmjejc79ks4ck7muunq8t.apps.googleusercontent.com",
+              "client_id": "1002544468852-q17ggb93ciu3spf4knes5kecvht9tdcb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

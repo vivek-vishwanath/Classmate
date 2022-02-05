@@ -30,6 +30,10 @@ data class User(
         contacts.add(contact)
     }
 
+    fun addTo(forum: Forum) {
+        forums.add(forum);
+    }
+
     fun getName(): String {
         return "$firstName $lastName"
     }

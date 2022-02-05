@@ -82,7 +82,6 @@ public class ProfileFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         userID = auth.getUid();
-        Print.d(userID);
         if (userID == null) requireActivity().finish();
     }
 
@@ -139,7 +138,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void pullFromDatabase() {
-        Print.d(userID);
         firestore.collection("users").document(userID).get()
                 .addOnSuccessListener(this::firestoreSuccess);
 

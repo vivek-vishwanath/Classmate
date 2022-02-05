@@ -56,6 +56,8 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
 
     implementation 'androidx.room:room-runtime:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0'
     annotationProcessor 'androidx.room:room-compiler:2.4.1'
 
     implementation 'com.google.api-client:google-api-client:1.33.0'

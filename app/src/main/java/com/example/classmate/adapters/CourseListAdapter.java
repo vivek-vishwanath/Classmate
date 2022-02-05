@@ -62,7 +62,6 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Course course = courses.get(position);
-        Print.i("CourseAdapter!!");
         try {
             JSONObject object = new JSONObject(loadJSONFromAsset());
             JSONArray array = object.getJSONArray("Subjects");

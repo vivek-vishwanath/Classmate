@@ -1,4 +1,4 @@
-package com.example.classmate.ui.messages;
+package com.example.classmate.adapters;
 
 import android.content.Context;
 import android.graphics.Color;

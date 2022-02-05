@@ -1,12 +1,15 @@
 package com.example.classmate.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import com.example.classmate.activities.NavigationDrawerActivity;
 import com.example.classmate.objects.Forum;
 
 import java.util.ArrayList;
@@ -43,12 +46,14 @@ public class ForumAdapter extends BaseAdapter {
         button.setTextColor(Color.BLACK);
         button.setBackgroundColor(Color.RED);
         button.setTextSize(24);
-        button.setOnClickListener(this::onClick);
+        button.setOnClickListener(view -> onClick(position));
 
         return button;
     }
 
-    private void onClick(View view) {
-
+    private void onClick(int position) {
+        Intent intent = new Intent(context, NavigationDrawerActivity.class);
+        intent.putExtra("Forum", forums.get(position));
+        context.startActivity(intent);
     }
 }

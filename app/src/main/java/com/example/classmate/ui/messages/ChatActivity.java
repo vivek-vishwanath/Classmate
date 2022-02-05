@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.classmate.adapters.MessageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -67,7 +68,6 @@ public class ChatActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         sender = auth.getUid();
         recipient = getIntent().getStringExtra("UID");
-        Print.d(recipient);
         chatID = (sender.compareTo(recipient) < 0) ? (sender + recipient) : (recipient + sender);
         reference = FirebaseDatabase.getInstance().getReference().child("chats").child(chatID);
 

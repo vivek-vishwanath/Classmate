@@ -1,6 +1,13 @@
 package com.example.classmate.objects
 
-data class Forum(val uid: String, val name: String, val description: String, val users: ArrayList<User>) {
+import java.io.Serializable
+import java.util.*
+import kotlin.collections.ArrayList
+
+data class Forum(val uid: String, val name: String, val description: String, val privacy: Boolean, val users: ArrayList<User>) : Serializable {
+
+    constructor(uid: String, name: String, description: String, privacy: Boolean, user: User) :
+            this(uid, name, description, privacy, ArrayList(listOf(user)))
 
     companion object {
 
@@ -8,8 +15,9 @@ data class Forum(val uid: String, val name: String, val description: String, val
             val uid: String by map
             val name: String by map
             val description: String by map
+            val privacy: Boolean by map
             val users: ArrayList<User> by map
-            val data = Forum(uid, name, description, users)
+            val data = Forum(uid, name, description, privacy, users)
         }.data
     }
 }

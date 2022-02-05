@@ -4,6 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewForumActivity">
+    android:background="@color/background_color"
+    tools:context=".ui.dashboard.NewForumActivity">
+
+    <EditText
+        android:id="@+id/new_forum_name_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_blue"
+        android:ems="10"
+        android:hint="Group Name"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_color_hint"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/description_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_blue"
+        android:ems="10"
+        android:gravity="top|left"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_color_hint"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/privacy_check_box"
+        app:layout_constraintEnd_toEndOf="@+id/new_forum_name_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/new_forum_name_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/new_forum_name_edit_text" />
+
+    <CheckBox
+        android:id="@+id/privacy_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="48dp"
+        android:buttonTint="@color/text_color"
+        android:text=" Private"
+        android:textColor="@color/text_color"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/create_forum_button"
+        app:layout_constraintStart_toStartOf="@+id/description_edit_text" />
+
+    <TextView
+        android:id="@+id/privacy_key_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textColor="@color/text_off_color"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/privacy_check_box"
+        app:layout_constraintStart_toEndOf="@+id/privacy_check_box"
+        app:layout_constraintTop_toTopOf="@+id/privacy_check_box" />
+
+    <Button
+        android:id="@+id/create_forum_button"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/rounded_blue"
+        android:text="Create Group"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
