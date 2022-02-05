@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.vvishwanath.fbla.ui.profile.ProfileFragment"
+        android:name="com.example.classmate.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.vvishwanath.fbla.ui.dashboard.DashboardFragment"
+        android:name="com.example.classmate.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.vvishwanath.fbla.ui.search.SearchFragment"
+        android:name="com.example.classmate.ui.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_messages"
-        android:name="com.vvishwanath.fbla.ui.messages.MessagesFragment"
+        android:name="com.example.classmate.ui.messages.MessagesFragment"
         android:label="@string/title_messages"
         tools:layout="@layout/fragment_messages" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.vvishwanath.fbla.ui.notifications.NotificationsFragment"
+        android:name="com.example.classmate.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
