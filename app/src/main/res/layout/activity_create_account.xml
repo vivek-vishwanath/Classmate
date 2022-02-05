@@ -26,8 +26,9 @@
 
     <EditText
         android:id="@+id/last_name_edit_text"
-        android:layout_width="176dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
@@ -38,6 +39,7 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/first_name_edit_text"
         app:layout_constraintTop_toTopOf="@+id/first_name_edit_text" />
 
 
@@ -81,8 +83,9 @@
 
     <EditText
         android:id="@+id/new_grade_edit_text"
-        android:layout_width="128dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
@@ -93,6 +96,7 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/new_school_edit_text"
         app:layout_constraintTop_toTopOf="@+id/new_school_edit_text" />
 
 
@@ -116,8 +120,9 @@
 
     <EditText
         android:id="@+id/confirm_password_edit_text"
-        android:layout_width="176dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
@@ -128,6 +133,7 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/new_password_edit_text"
         app:layout_constraintTop_toTopOf="@+id/new_password_edit_text" />
 
     <Button
