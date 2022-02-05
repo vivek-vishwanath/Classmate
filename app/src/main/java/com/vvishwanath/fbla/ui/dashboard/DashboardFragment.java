@@ -1,6 +1,5 @@
 package com.vvishwanath.fbla.ui.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.vvishwanath.fbla.activities.LunchMenuActivity;
 import com.vvishwanath.fbla.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
