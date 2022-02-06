@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FBLA">
         <activity
-            android:name="com.example.classmate.fragments.messages.menu.EventsActivity"
+            android:name=".fragments.messages.menu.NewEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragments.messages.menu.EventsActivity"
             android:exported="false" />
         <activity
             android:name=".fragments.dashboard.NewForumActivity"
@@ -26,10 +29,10 @@
             android:name=".login.AddCoursesActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.classmate.fragments.messages.chat.ChatActivity"
+            android:name=".fragments.messages.chat.ChatActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.classmate.fragments.messages.main.FindForumActivity"
+            android:name=".fragments.messages.main.FindForumActivity"
             android:exported="false" />
         <activity
             android:name=".login.CreateAccountActivity"
