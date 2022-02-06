@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.classmate.objects.Forum;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,24 +34,22 @@ import com.example.classmate.ui.messages.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
     DatabaseReference database;
-    CollectionReference firestore;
+    FirebaseFirestore firestore;
     StorageReference storageReference;
 
-    Fragment fragment;
     Activity activity;
 
     TextView[] nameTV;
     TextView[] recentMessageTV;
     ImageView[] pfpIV;
 
-    private final List<String> contacts;
+    private final ArrayList<String> forums;
     ArrayList<ViewHolder> holders;
     ViewHolder holder;
     Message[] recentMessages;
@@ -88,57 +86,51 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String contact = contacts.get(position);
+        String forum = forums.get(position);
+        Print.i(forum);
         nameTV[position] = holder.nameTV;
         pfpIV[position] = holder.profileIV;
         recentMessageTV[position] = holder.recentMessageTV;
 
         holder.layout.setOnClickListener(view -> onClick(position));
 
-        pullFromDatabase(contact, position);
+        pullFromDatabase(forum, position);
     }
 
-    public void pullFromDatabase(String contact, int position) {
-        String chatID = (userID.compareTo(contact) < 0) ? (userID + contact) : (contact + userID);
-        Print.i(chatID);
-
-        firestore.document(contact).get()
-                .addOnSuccessListener(snapshot -> onSuccessPull(snapshot, position, chatID))
+    public void pullFromDatabase(String forum, int position) {
+        firestore.collection("forums").document(forum).get()
+                .addOnSuccessListener(snapshot -> onSuccessPull(snapshot, position))
                 .addOnFailureListener(this::failedPull);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference().child("pfp").child(contact);
+        storageReference = storage.getReference().child("pfp").child(forum);
         storageReference.getBytes(MAX_SIZE)
                 .addOnSuccessListener(bytes -> pfpIV[position].setImageBitmap(getCircularBitmap(bytes)))
                 .addOnFailureListener(bytes -> Bitmaps.setBytes(pfpIV[position], Bitmaps.Default.getBytes(activity)));
     }
 
     public void getRecentMessage(DataSnapshot snapshot, int position) {
+        if(query) return;
         Map<String, Object> map = new HashMap<>();
         for (DataSnapshot s : snapshot.getChildren()) map.put(s.getKey(), s.getValue());
         try {
             Message message = Message.CREATOR.from(map);
             recentMessages[position] = message;
-            Print.i(message);
             boolean fromSender = userID.equals(recentMessages[position].getSenderID());
-            String name = nameTV[position].getText().toString();
-            name = name.substring(0, name.indexOf(" "));
-            String text = (fromSender ? "You: " : name + ": ") + message.getText();
-            Print.i(text);
+            String text = (fromSender ? "You: " : "" + ": ") + message.getText();
             recentMessageTV[position].setText(text);
         } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
     }
 
-    public void onSuccessPull(DocumentSnapshot snapshot, int position, String chatID) {
+    public void onSuccessPull(DocumentSnapshot snapshot, int position) {
+        Print.i(position);
         if (snapshot.exists() && snapshot.getData() != null) {
-            User user = User.Companion.from(snapshot.getData());
-            String name = user.getFirstName() + " " + user.getLastName();
-            nameTV[position].setText(name);
-            Print.i(name);
+            Forum forum = Forum.Companion.from(snapshot.getData());
+            nameTV[position].setText(forum.getName());
 
-            database.child("chats").child(chatID).child("recent").get().addOnSuccessListener(
+            database.child("chats").child(forum.getId()).child("recent").get().addOnSuccessListener(
                     s -> getRecentMessage(s, position)
             );
         }
@@ -146,22 +138,23 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     // TODO: Resolve RuntimeException
     private void failedPull(Exception e) {
+        Print.i("Pull Failed");
         e.printStackTrace();
         throw new RuntimeException(e.getMessage());
     }
 
     private void onClick(int position) {
         if (query) {
-            firestore.document(userID).get()
+            firestore.collection("users").document(userID).get()
                     .addOnSuccessListener(snapshot -> onSuccess(snapshot, position));
         } else {
             Intent intent = new Intent(activity, ChatActivity.class);
-            intent.putExtra("UID", contacts.get(position));
-            firestore.document(contacts.get(position)).get()
+            intent.putExtra("Forum ID", forums.get(position));
+            firestore.collection("forums").document(forums.get(position)).get()
                     .addOnSuccessListener(snapshot -> {
                         if (snapshot.getData() == null) return;
-                        User user = User.Companion.from(snapshot.getData());
-                        intent.putExtra("Name", user.getName());
+                        Forum forum = Forum.Companion.from(snapshot.getData());
+                        intent.putExtra("Name", forum.getName());
                         activity.startActivityForResult(intent, position);
                         activity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                     });
@@ -171,36 +164,33 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private void onSuccess(DocumentSnapshot snapshot, int position) {
         if (snapshot.getData() == null) return;
         User user = User.Companion.from(snapshot.getData());
-        user.add(contacts.get(position));
-        firestore.document().set(user);
+        user.getForums().add(forums.get(position));
+        firestore.collection("users").document(snapshot.getId()).set(user)
+        .addOnSuccessListener(unused -> activity.finish());
     }
 
-    private UsersAdapter(List<String> contacts, String userID, boolean query) {
-        this.contacts = new ArrayList<>(contacts);
+    private UsersAdapter(ArrayList<String> forums, String userID, boolean query) {
+        this.forums = new ArrayList<>(forums);
         this.holders = new ArrayList<>();
         this.userID = userID;
         this.query = query;
-        this.nameTV = new TextView[contacts.size()];
-        this.pfpIV = new ImageView[contacts.size()];
-        this.recentMessageTV = new TextView[contacts.size()];
-        this.recentMessages = new Message[contacts.size()];
-        firestore = FirebaseFirestore.getInstance().collection("users");
+        this.nameTV = new TextView[forums.size()];
+        this.pfpIV = new ImageView[forums.size()];
+        this.recentMessageTV = new TextView[forums.size()];
+        this.recentMessages = new Message[forums.size()];
+        firestore = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
+        for(String s : forums)
+            Print.i(s);
     }
 
-//    public UsersAdapter(Fragment fragment, List<String> contacts, String userID) {
-//        this(contacts, userID, false);
-//        this.fragment = fragment;
-//        this.activity = fragment.getActivity();
-//    }
-
-    public UsersAdapter(Activity activity, List<String> contacts, String userID, boolean query) {
-        this(contacts, userID, query);
+    public UsersAdapter(Activity activity, ArrayList<String> forums, String userID, boolean query) {
+        this(forums, userID, query);
         this.activity = activity;
     }
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return forums.size();
     }
 }

@@ -3,80 +3,187 @@
     {
       "Class": "Math",
       "Courses": [
-        "Algebra",
-        "Geometry",
-        "Precalculus",
-        "Statistics",
-        "Calculus"
+        "GSE Algebra I",
+        "Accelerated GSE Algebra I Geometry A",
+        "GSE Algebra II",
+        "Accelerated GSE Algebra II Geometry B",
+        "GSE Geometry",
+        "GSE Precalculus",
+        "Accelerated GSE Precalculus Honors",
+        "Advanced Mathematical Decision Making",
+        "Calculus",
+        "AP Calculus AB",
+        "AP Calculus BC",
+        "AP Statistics",
+        "Linear Algebra/Multivariable Calculus",
+        "Applied Combinatorics/Differential Equations"
       ]
     },
     {
       "Class": "Science",
       "Courses": [
         "Biology",
+        "Biology Honors",
+        "AP Biology",
+        "Physical Science",
         "Chemistry",
+        "Chemistry Honors",
+        "AP Chemistry",
         "Environmental Science",
         "Physics",
-        "Computer Science"
+        "AP Physics 1",
+        "AP Physics C",
+        "Human Anatomy/Physiology",
+        "Human Anatomy/Physiology Honors",
+        "Astronomy",
+        "Earth Systems",
+        "Forensic Science",
+        "Introduction to Digital Technology",
+        "AP Computer Science Principles",
+        "AP Computer Science A"
       ]
     },
     {
       "Class": "English",
       "Courses": [
         "9th Lit/Comp",
+        "9th Lit/Comp Honors",
         "10th Lit/Comp",
-        "11th Lit/Comp",
-        "12th Lit/Comp",
-        "AP English Language",
-        "AP Literature"
+        "10th Lit/Comp Honors",
+        "11th American Lit/Comp",
+        "11th American Lit/Comp Honors",
+        "British Lit/Comp",
+        "Multicultural Lit/Comp",
+        "Advanced Composition Honors",
+        "AP English Lang & Comp",
+        "AP English Literature",
+        "Journalism/Newspaper",
+        "Journalism/Yearbook",
+        "Journalism/Literary Magazine",
+        "Mythology"
       ]
     },
     {
       "Class": "Social Studies",
       "Courses": [
-        "Government",
-        "Human Geography",
+        "American Government / Civics",
+        "AP US Government & Politics",
         "World History",
+        "AP World History",
         "US History",
-        "European History",
+        "AP US History",
         "Economics",
-        "Psychology"
+        "AP Microeconomics & AP Macroeconomics",
+        "Sociology",
+        "AP Human Geography",
+        "AP European History",
+        "Psychology",
+        "AP Psychology"
       ]
     },
     {
       "Class": "World Language",
       "Courses": [
-        "Spanish",
-        "French",
-        "Chinese (Mandrain)",
-        "German",
-        "Latin",
-        "Japanese",
-        "Arabic",
-        "Italian"
+        "Spanish I",
+        "Spanish 1B",
+        "Spanish II",
+        "Spanish II Honors",
+        "Spanish III",
+        "Spanish III Honors",
+        "Spanish IV",
+        "Spanish IV Honors",
+        "Spanish V Honors",
+        "AP Spanish Language and Culture",
+        "French I",
+        "French II",
+        "French II Honors",
+        "French III",
+        "French III Honors",
+        "French IV",
+        "French IV Honors",
+        "French V Honors",
+        "AP French Language and Culture",
+        "Chinese I",
+        "Chinese II",
+        "Chinese II Honors",
+        "Chinese III",
+        "Chinese III Honors",
+        "Chinese IV Honors",
+        "Chinese V Honors",
+        "AP Chinese Language and Culture",
+        "German I",
+        "German II",
+        "German II Honors",
+        "German III",
+        "German III Honors",
+        "German IV Honors",
+        "AP German Language and Culture",
+        "Latin I",
+        "Latin II",
+        "Latin II Honors",
+        "Latin III",
+        "Latin III Honors",
+        "Latin IV Honors",
+        "AP Latin"
+      ]
+    },
+    {
+      "Class": "Health",
+      "Courses": [
+        "General Health",
+        "Personal Fitness",
+        "Advanced Personal Fitness",
+        "General PE",
+        "Weight Training"
       ]
     },
     {
       "Class": "Business",
       "Courses": [
-        "Accounting",
-        "Finance",
-        "Information Technology",
-        "Entrepreneurship",
-        "Personal Finance",
-        "Marketing",
-        "Computer Applications"
+        "Financial Literacy",
+        "Introduction to Business & Technology",
+        "Introduction to Entrepreneurship",
+        "Principles of Accounting",
+        "Honors Accounting",
+        "Work Based Learning",
+        "Marketing Principles",
+        "Marketing & Entrepreneurship",
+        "Marketing Management"
       ]
     },
     {
-      "Class": "Arts",
+      "Class": "Music, Drama & Arts",
       "Courses": [
         "Orchestra",
         "Chorus",
         "Band",
-        "Music Theory",
-        "Art and Design",
-        "Art History"
+        "Piano",
+        "AP Music Theory",
+        "AP 2D Art and Design",
+        "AP 3D Art and Design",
+        "AP Art History",
+        "AP Drawing",
+        "Visual Arts: Comprehensive",
+        "Visual Arts: Ceramics",
+        "Visual Arts: Drawing & Painting",
+        "Visual Arts: Jewelry & Metalcrafts",
+        "Visual Arts: Photography",
+        "Visual Arts: Graphics",
+        "Fundamentals of Theatre",
+        "Acting",
+        "Advanced Drama",
+        "Technical Theatre"
+      ]
+    },
+    {
+      "Class": "Other",
+      "Courses": [
+        "Introduction to Healthcare Science",
+        "Essentials of Healthcare",
+        "Sports Medicine",
+        "Public Health",
+        "Gifted Directed Study",
+        "Gifted Career Internship"
       ]
     }
   ]

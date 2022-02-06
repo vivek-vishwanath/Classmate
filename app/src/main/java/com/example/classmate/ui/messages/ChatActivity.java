@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.classmate.adapters.MessageAdapter;
+import com.example.classmate.objects.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.classmate.Print;
@@ -36,6 +39,7 @@ import java.util.Map;
 public class ChatActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
+    FirebaseFirestore firestore;
     StorageReference storage;
     DatabaseReference reference;
 
@@ -47,7 +51,8 @@ public class ChatActivity extends AppCompatActivity {
     LinkedList<Message> messages;
     MessageAdapter adapter;
 
-    String sender, recipient;
+    String sender;
+    String senderName;
     String chatID;
 
     @Override
@@ -62,13 +67,15 @@ public class ChatActivity extends AppCompatActivity {
         setResourceObjects();
         setRecyclerView();
         setListeners();
+
+        firestore.collection("users").document(sender).get().addOnSuccessListener(this::setName);
     }
 
     public void setFirebase() {
         auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         sender = auth.getUid();
-        recipient = getIntent().getStringExtra("UID");
-        chatID = (sender.compareTo(recipient) < 0) ? (sender + recipient) : (recipient + sender);
+        chatID = getIntent().getStringExtra("Forum ID");
         reference = FirebaseDatabase.getInstance().getReference().child("chats").child(chatID);
 
         senderPFP = new ImageView(this);
@@ -76,9 +83,6 @@ public class ChatActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance().getReference().child("pfp");
         storage.child(sender).getBytes(MAX_SIZE).addOnSuccessListener(
                 bytes -> senderPFP.setImageBitmap(Bitmaps.getBitmap(bytes))
-        );
-        storage.child(recipient).getBytes(MAX_SIZE).addOnSuccessListener(
-                bytes -> recipientPFP.setImageBitmap(Bitmaps.getBitmap(bytes))
         );
     }
 
@@ -106,6 +110,7 @@ public class ChatActivity extends AppCompatActivity {
                 for(DataSnapshot s : snapshot.getChildren()) map.put(s.getKey(), s.getValue());
                 messages.add(Message.CREATOR.from(map));
                 adapter.notifyItemInserted(messages.size() - 1);
+                adapter.notifyItemChanged(messages.size() - 2);
                 recyclerView.scrollToPosition(messages.size() - 1);
                 Print.i(previousChildName);
                 Print.i(messages);
@@ -133,8 +138,14 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    public void setName(DocumentSnapshot snapshot) {
+        if(snapshot.getData() == null) finish();
+        User user = User.Companion.from(snapshot.getData());
+        senderName = user.getName();
+    }
+
     public void sendText(View view)  {
-        Message message = new Message(messageET.getText().toString(), sender, recipient);
+        Message message = new Message(messageET.getText().toString(), sender, senderName, chatID);
         reference.push().setValue(message);
         reference.child("recent").setValue(message);
         messageET.setText("");

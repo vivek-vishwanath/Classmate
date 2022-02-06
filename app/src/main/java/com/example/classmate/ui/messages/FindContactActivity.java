@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.classmate.objects.Forum;
+import com.example.classmate.objects.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,8 +23,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.classmate.R;
-import com.example.classmate.objects.User;
 import com.example.classmate.adapters.UsersAdapter;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -43,8 +46,8 @@ public class FindContactActivity extends AppCompatActivity {
 
     String userID;
     String search;
-    ArrayList<String> contactUIDs = new ArrayList<>();
-    ArrayList<String> existingContacts;
+    ArrayList<String> forums = new ArrayList<>();
+    ArrayList<String> existingForums;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,6 @@ public class FindContactActivity extends AppCompatActivity {
         setSharedPreferences();
         setListeners();
         setRecyclerView();
-        pullFromDatabase();
     }
 
     public void setFirebase() {
@@ -84,7 +86,7 @@ public class FindContactActivity extends AppCompatActivity {
     }
 
     public void setRecyclerView() {
-        adapter = new UsersAdapter(this, contactUIDs, userID, true);
+        adapter = new UsersAdapter(this, forums, userID, true);
         queryRV.setAdapter(adapter);
         queryRV.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -94,29 +96,27 @@ public class FindContactActivity extends AppCompatActivity {
     }
 
     public void onSuccess(DocumentSnapshot snapshot) {
-        if (snapshot == null) return;
-        existingContacts = (ArrayList<String>) snapshot.get("contacts");
-        existingContacts = existingContacts == null ? new ArrayList<>() : existingContacts;
+        if(snapshot.getData() == null) return;
+        User user = User.Companion.from(snapshot.getData());
+        existingForums = new ArrayList<>(user.getForums());
     }
 
     public void query(View view) {
         search = searchET.getText().toString();
-        firestore.collection("users").get()
-                .addOnSuccessListener(this::onSuccessQuery);
+        pullFromDatabase();
+        firestore.collection("forums").get().addOnSuccessListener(this::onSuccessQuery);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void onSuccessQuery(QuerySnapshot snapshot) {
-        contactUIDs = new ArrayList<>();
+        forums = new ArrayList<>();
         for (QueryDocumentSnapshot data : snapshot) {
-            User user = User.Companion.from(data.getData());
-            String name = user.getFirstName() + " " + user.getLastName();
-            String uid = data.getId();
-            if (contains(name, search) && !existingContacts.contains(uid) && !userID.equals(uid)) {
-                contactUIDs.add(uid);
+            Forum forum = Forum.Companion.from(data.getData());
+            if (contains(forum.getName(), search) && !existingForums.contains(forum.getId())) {
+                forums.add(forum.getId());
             }
         }
-        adapter = new UsersAdapter(this, contactUIDs, userID, true);
+        adapter = new UsersAdapter(this, forums, userID, true);
         queryRV.setAdapter(adapter);
     }
 

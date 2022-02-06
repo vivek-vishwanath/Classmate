@@ -1,8 +1,10 @@
 package com.example.classmate.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,19 +15,19 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.classmate.R;
 import com.example.classmate.databinding.ActivityNavigationDrawerBinding;
+import com.example.classmate.objects.Forum;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class NavigationDrawerActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityNavigationDrawerBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityNavigationDrawerBinding.inflate(getLayoutInflater());
+        ActivityNavigationDrawerBinding binding = ActivityNavigationDrawerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
@@ -42,12 +44,17 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        View navView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        TextView titleTV = navView.findViewById(R.id.title_text_view);
+
+        Intent intent = getIntent();
+        Forum forum = (Forum) intent.getSerializableExtra("Forum");
+        titleTV.setText(forum.getName());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
     }
 

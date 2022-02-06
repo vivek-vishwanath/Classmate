@@ -8,10 +8,11 @@
 
     <EditText
         android:id="@+id/first_name_edit_text"
-        android:layout_width="176dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/first_name"
@@ -20,6 +21,7 @@
         android:textColor="@color/text_color"
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,8 +30,9 @@
         android:id="@+id/last_name_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/last_name"
@@ -39,17 +42,17 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/first_name_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/first_name_edit_text" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_name_edit_text" />
 
 
     <EditText
         android:id="@+id/new_email_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/email"
@@ -64,29 +67,12 @@
 
 
     <EditText
-        android:id="@+id/new_school_edit_text"
-        android:layout_width="224dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/rounded_box"
-        android:ems="10"
-        android:hint="@string/school"
-        android:inputType="textPersonName"
-        android:padding="16dp"
-        android:textColor="@color/text_color"
-        android:textColorHint="@color/text_color_hint"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_email_edit_text" />
-
-
-    <EditText
         android:id="@+id/new_grade_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/grade"
@@ -96,16 +82,17 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/new_school_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/new_school_edit_text" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_email_edit_text" />
 
 
     <EditText
         android:id="@+id/new_password_edit_text"
-        android:layout_width="176dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/password"
@@ -114,6 +101,7 @@
         android:textColor="@color/text_color"
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/new_grade_edit_text" />
 
@@ -122,8 +110,9 @@
         android:id="@+id/confirm_password_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
         android:hint="@string/confirm_password"
@@ -133,22 +122,29 @@
         android:textColorHint="@color/text_color_hint"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/new_password_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/new_password_edit_text" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_password_edit_text" />
 
-    <Button
-        android:id="@+id/sign_up_button"
-        android:layout_width="192dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_blue"
-        android:text="@string/sign_up"
-        android:textColor="#FFFFFF"
+    <TextView
+        android:id="@+id/continue_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Next"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/continue_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_password_edit_text" />
+        app:layout_constraintTop_toTopOf="@+id/continue_text_view"
+        app:srcCompat="@drawable/ic_baseline_navigate_next_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

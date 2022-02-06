@@ -1,39 +1,65 @@
 package com.example.classmate.objects
 
+import android.graphics.Color
+import java.io.*
+import java.util.*
 import javax.annotation.Nullable
+import kotlin.collections.ArrayList
 
-data class Course(@Nullable var name: String, @Nullable var field: Field, @Nullable var gradeAvg: Int, @Nullable var difficulty: Difficulty) {
+data class Course(@Nullable var name: String, @Nullable var field: String, @Nullable var period: Int): Serializable {
 
 
-    enum class Field {
-
-        MATH, SCIENCE, ENGLISH, SOCIAL_STUDIES, WORLD_LANGUAGE, BUSINESS, ARTS, NULL;
-
-        companion object {
-
-            fun getField(name: String): Field {
-                when(name) {
-                    "Math" -> return MATH
-                    "Science" -> return SCIENCE
-                    "English" -> return ENGLISH
-                    "Social Studies" -> return SOCIAL_STUDIES
-                    "World Language" -> return WORLD_LANGUAGE
-                    "Business" -> return BUSINESS
-                    "Arts" -> return ARTS
-                }
-                return NULL
-            }
-
-        }
-    }
-
-    enum class Difficulty {
-
-        SUPPORT, ON_LEVEL, HONORS, ACCELERATED, AP, IB
-    }
 
     companion object {
 
-        final var OTHER: Course = Course("Other", Field.NULL, 100, Difficulty.ON_LEVEL)
+        val OTHER: Course = Course("Other", "Other", -1)
+
+        fun from(map: Map<String, Any>) = object {
+            val name: String by map
+            val field: String by map
+            val period: Int by map
+            val data = Course(name, field, period)
+        }.data
+
+        fun serialize(courses: ArrayList<Course>): String {
+            val stream = ByteArrayOutputStream()
+            val objStream = ObjectOutputStream(stream)
+            objStream.writeObject(courses)
+            objStream.flush()
+            val bytes: ByteArray = Base64.getEncoder().encode(stream.toByteArray())
+            return String(bytes)
+        }
+
+        fun deserialize(string: String?): ArrayList<Course> {
+            if(string == null) return ArrayList()
+            val bytes: ByteArray = Base64.getDecoder().decode(string.toByteArray())
+            val inStream = ByteArrayInputStream(bytes)
+            val objStream = ObjectInputStream(inStream)
+            val courses = objStream.readObject() as ArrayList<Course>?
+            return courses ?: ArrayList()
+        }
+    }
+
+    fun serialize(): String {
+        val stream = ByteArrayOutputStream()
+        val objStream = ObjectOutputStream(stream)
+        objStream.writeObject(this)
+        objStream.flush()
+        val bytes: ByteArray = Base64.getEncoder().encode(stream.toByteArray())
+        return String(bytes)
+    }
+
+    fun getColor(): Int {
+        when(field) {
+            "Math" -> return Color.BLUE
+            "Science" -> return Color.GREEN
+            "English" -> return Color.RED
+            "Social Studies" -> return Color.YELLOW
+            "World Language" -> return Color.rgb(0xAF, 0x00, 0xFF)
+            "Business" -> return Color.rgb(0x3F, 0xFF, 0xDF)
+            "Health" -> return Color.rgb(0xFF, 0x3F, 0xFF)
+            "Music, Drama & Arts" -> return Color.rgb(0xFF, 0x7F, 0x00)
+        }
+        return Color.DKGRAY
     }
 }

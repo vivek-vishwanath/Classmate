@@ -1,15 +1,14 @@
 package com.example.classmate.objects
 
+import java.io.Serializable
 import kotlin.collections.ArrayList
 
 data class User(
-    val firstName: String, val lastName: String, val email: String, val school: String,
-    val grade: Int, val contacts: ArrayList<String>, val courses: ArrayList<Course>,
-    val forums: ArrayList<Forum>
-) {
+    val firstName: String, val lastName: String, val email: String,
+    val grade: Int, val courses: ArrayList<Course>, val forums: ArrayList<String>): Serializable {
 
-    constructor(firstName: String, lastName: String, email: String, school: String, grade: Int) :
-            this(firstName, lastName, email, school, grade, ArrayList(), ArrayList(), ArrayList())
+    constructor(firstName: String, lastName: String, email: String, grade: Int) :
+            this(firstName, lastName, email, grade, ArrayList(), ArrayList())
 
     companion object {
 
@@ -17,21 +16,19 @@ data class User(
             val firstName: String by map
             val lastName: String by map
             val email: String by map
-            val school: String by map
             val grade: Int by map
-            val contacts: ArrayList<String> by map
             val courses: ArrayList<Course> by map
-            val forums: ArrayList<Forum> by map
-            val data = User(firstName, lastName, email, school, grade, contacts, courses, forums)
+            val forums: ArrayList<String> by map
+            val data = User(firstName, lastName, email, grade, courses, forums)
         }.data
     }
 
-    fun add(contact: String) {
-        contacts.add(contact)
+    fun addTo(forum: String) {
+        forums.add(forum);
     }
 
-    fun addTo(forum: Forum) {
-        forums.add(forum);
+    fun load(courses: ArrayList<Course>) {
+        this.courses.addAll(courses)
     }
 
     fun getName(): String {

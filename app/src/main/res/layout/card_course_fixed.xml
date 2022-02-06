@@ -3,17 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="192dp">
+    android:layout_height="160dp">
+
+    <View
+        android:id="@+id/course_color_view"
+        android:layout_width="32dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/course_container_card_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/course_container_card_view" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/course_container_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="168dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="144dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/course_color_view"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,29 +29,17 @@
             android:layout_height="match_parent"
             android:background="@drawable/course_background">
 
-            <Spinner
-                android:id="@+id/select_field_spinner"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:spinnerMode="dialog"
+            <TextView
+                android:id="@+id/course_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/course_period_text_view" />
-
-            <Spinner
-                android:id="@+id/select_course_spinner"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:spinnerMode="dialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/select_field_spinner" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/course_period_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/course_period_text_view"
+                tools:text="Multivariable Calculus" />
 
             <TextView
                 android:id="@+id/course_period_text_view"

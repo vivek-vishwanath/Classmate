@@ -23,7 +23,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.classmate.activities.AddCoursesActivity;
+import com.example.classmate.adapters.CourseListAdapter;
+import com.example.classmate.objects.Course;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,7 +40,12 @@ import com.example.classmate.objects.User;
 import com.example.classmate.databinding.FragmentProfileBinding;
 import com.example.classmate.statics.Bitmaps;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,12 +61,15 @@ public class ProfileFragment extends Fragment {
 
     SharedPreferences sharedPreferences;
 
-    TextView nameTV, emailTV, schoolTV, gradeTV;
+    TextView nameTV, emailTV, gradeTV;
     ImageView profilePicIV;
+    RecyclerView recyclerView;
 
-    String name, email, school, grade;
+    CourseListAdapter adapter;
+
+    ArrayList<Course> courses;
+    String name, email, grade;
     byte[] bytes;
-
     private String userID;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +82,7 @@ public class ProfileFragment extends Fragment {
         firebase();
         setResourceObjects(root);
         setListeners();
+        setRecyclerView();
         setDefault();
 
         pullFromDatabase();
@@ -88,13 +102,21 @@ public class ProfileFragment extends Fragment {
     private void setResourceObjects(View root) {
         nameTV = root.findViewById(R.id.profile_name_text_view);
         emailTV = root.findViewById(R.id.profile_email_text_view);
-        schoolTV = root.findViewById(R.id.profile_school_text_view);
         gradeTV = root.findViewById(R.id.profile_grade_text_view);
         profilePicIV = root.findViewById(R.id.profile_picture);
+        recyclerView = root.findViewById(R.id.profile_course_list_recycler_view);
     }
 
     public void setListeners() {
         profilePicIV.setOnClickListener(this::getPhoto);
+    }
+
+    public void setRecyclerView() {
+        if(courses == null) return;
+        adapter = new CourseListAdapter(requireActivity(), courses, false);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new AddCoursesActivity.VerticalSpacingItemDecorator(8));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
     public void getPhoto(View view) {
@@ -105,8 +127,8 @@ public class ProfileFragment extends Fragment {
     public void setDefault() {
         name = sharedPreferences.getString("name", null);
         email = sharedPreferences.getString("email", null);
-        school = sharedPreferences.getString("school", null);
-        grade = String.valueOf(sharedPreferences.getInt("grade", 13));
+        grade = String.valueOf(sharedPreferences.getInt("grade", 12));
+        courses = Course.Companion.deserialize(sharedPreferences.getString("courses", null));
 
         String pfp = sharedPreferences.getString("pfp", null);
         if(pfp != null) this.bytes = getBytes(pfp);
@@ -127,7 +149,6 @@ public class ProfileFragment extends Fragment {
     public void setTextViews() {
         nameTV.setText(name);
         emailTV.setText(email);
-        schoolTV.setText(school);
         String grade = "Grade: " + this.grade;
         gradeTV.setText(grade);
     }
@@ -155,13 +176,21 @@ public class ProfileFragment extends Fragment {
         User user = User.Companion.from(snapshot.getData());
         name = user.getName();
         email = user.getEmail();
-        school = user.getSchool();
         grade = String.valueOf(user.getGrade());
+        courses = new ArrayList<>();
+        List<Map<String, ?>> list = (List<Map<String, ?>>) snapshot.get("courses");
+        if (list != null) {
+            for(Map<String, ?> map : list) {
+                courses.add(Course.Companion.from(map));
+            }
+        }
+        Print.i(courses);
         sharedPreferences.edit().putString("name", name).apply();
         sharedPreferences.edit().putString("email", email).apply();
-        sharedPreferences.edit().putString("school", school).apply();
         sharedPreferences.edit().putInt("grade", user.getGrade()).apply();
+        sharedPreferences.edit().putString("course", Course.Companion.serialize(courses)).apply();
         setTextViews();
+        setRecyclerView();
     }
 
     public void storageSuccess(byte[] bytes) {

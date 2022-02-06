@@ -3,14 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/course_background.xml" value="0.5703125" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/course_tab.xml" value="0.2703125" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/ic_baseline_navigate_next_24.xml" value="0.5703125" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/rounded_blue.xml" value="0.3734375" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/rounded_box.xml" value="0.3734375" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/rounded_corner_1.xml" value="0.3734375" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/drawable/rounded_corner_2.xml" value="0.3734375" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/activity_add_courses.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/activity_create_account.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/activity_navigation_drawer.xml" value="0.3171875" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/activity_new_forum.xml" value="0.3572916666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/card_course.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/card_course_fixed.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/card_message.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/content_navigation_drawer.xml" value="0.3171875" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/fragment_dashboard.xml" value="0.3171875" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/fragment_messages.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/fragment_profile.xml" value="0.5044136191677175" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/layout/nav_header_navigation_drawer.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/menu/activity_main_drawer.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/Classmate/app/src/main/res/menu/navigation_drawer.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/FBLA/app/src/main/res/layout/activity_contacts_list.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/FBLA/app/src/main/res/layout/activity_create_account.xml" value="0.3328125" />
         <entry key="..\:/Users/vivs0/Projects/AndroidStudioProjects/~Active Projects/FBLA/app/src/main/res/layout/activity_lunch_menu.xml" value="0.25416666666666665" />

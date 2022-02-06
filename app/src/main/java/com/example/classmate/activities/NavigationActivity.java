@@ -3,6 +3,7 @@ package com.example.classmate.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.classmate.objects.Forum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -19,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.classmate.Print;
 import com.example.classmate.R;
-import com.example.classmate.databinding.ActivityNavigationBinding;
+import com.example.classmate.databinding.ActivityBottomNavigationBinding;
 import com.example.classmate.objects.User;
 import com.example.classmate.adapters.UsersAdapter;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 
 public class NavigationActivity extends AppCompatActivity {
 
-    private ActivityNavigationBinding binding;
+    private ActivityBottomNavigationBinding binding;
 
     FirebaseAuth auth;
     FirebaseFirestore firestore;
@@ -36,14 +37,14 @@ public class NavigationActivity extends AppCompatActivity {
 
     UsersAdapter adapter;
 
-    ArrayList<String> contacts;
+    ArrayList<String> forums;
     private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityNavigationBinding.inflate(getLayoutInflater());
+        binding = ActivityBottomNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -77,13 +78,12 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void successfulPull(DocumentSnapshot snapshot) {
         if (snapshot.getData() == null) {
-            contacts = new ArrayList<>();
+            forums = new ArrayList<>();
             return;
         }
         User user = User.Companion.from(snapshot.getData());
-        contacts = user.getContacts();
-        Print.i(contacts);
-        adapter = new UsersAdapter(this, contacts, userID, false);
+        forums = user.getForums();
+        adapter = new UsersAdapter(this, forums, userID, false);
     }
 
     @Override
@@ -92,10 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         Print.i("OnActivityResult");
         Print.i(requestCode);
+        if(adapter != null && requestCode < adapter.getItemCount())
         adapter.notifyItemChanged(requestCode);
-    }
-
-    public UsersAdapter getAdapter() {
-        return adapter;
     }
 }

@@ -111,7 +111,7 @@ public class NewForumActivity extends AppCompatActivity {
         Map<String, ?> data = snapshot.getData();
         if (data == null) return;
         User user = User.Companion.from(data);
-        user.addTo(newForum);
+        user.addTo(newForum.getId());
         firestore.collection("users").document(userID).set(user);
         finish();
     }

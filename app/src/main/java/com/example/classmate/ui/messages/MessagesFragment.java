@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.classmate.objects.Forum;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,7 +29,6 @@ import com.example.classmate.databinding.FragmentMessagesBinding;
 import com.example.classmate.adapters.UsersAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MessagesFragment extends Fragment {
 
@@ -49,7 +49,7 @@ public class MessagesFragment extends Fragment {
     UsersAdapter adapter;
 
     private String userID;
-    List<String> contacts;
+    ArrayList<String> forums;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
@@ -62,7 +62,7 @@ public class MessagesFragment extends Fragment {
         setResourceObjects(root);
         setListeners();
 
-//        pullFromDatabase();
+        pullFromDatabase();
         setRecyclerView();
 
         return root;
@@ -91,7 +91,6 @@ public class MessagesFragment extends Fragment {
     }
 
     public void setRecyclerView() {
-        adapter = ((NavigationActivity) requireActivity()).getAdapter();
         contactsRV.setAdapter(adapter);
         contactsRV.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -108,12 +107,12 @@ public class MessagesFragment extends Fragment {
 
     private void successfulPull(DocumentSnapshot snapshot) {
         if (snapshot.getData() == null) {
-            contacts = new ArrayList<>();
+            forums = new ArrayList<>();
             return;
         }
         User user = User.Companion.from(snapshot.getData());
-        contacts = user.getContacts();
-        Print.i(contacts);
+        forums = user.getForums();
+        adapter = new UsersAdapter(requireActivity(), forums, userID, false);
         setRecyclerView();
     }
 
@@ -123,7 +122,7 @@ public class MessagesFragment extends Fragment {
 
         Print.i("OnActivityResult");
         Print.i(requestCode);
-        adapter.notifyItemChanged(requestCode);
+        pullFromDatabase();
     }
 
     @Override

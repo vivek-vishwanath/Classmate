@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,11 +35,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView messageTV;
+        TextView senderTV;
         RelativeLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.messageTV = itemView.findViewById(R.id.chat_message_text_view);
+            this.senderTV = itemView.findViewById(R.id.sender_name_text_view);
             this.layout = itemView.findViewById(R.id.card_message_relative_layout);
         }
     }
@@ -65,12 +68,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 R.drawable.message_outgoing : R.drawable.message_incoming);
         messageTV.setText(message.getText());
 
+        ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(holder.layout.getLayoutParams());
+        if(position == messages.size() - 1 || !messages.get(position + 1).getSenderID().equals(message.getSenderID())) {
+            String messageTag = message.getSenderName() + " ⋅ " + message.getTime();
+            holder.senderTV.setText(messageTag);
+            layoutParams.height = 240;
+        } else {
+            layoutParams.height = 176;
+        }
+        holder.layout.setLayoutParams(layoutParams);
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(isSender ? RelativeLayout.ALIGN_PARENT_RIGHT : RelativeLayout.ALIGN_PARENT_LEFT);
         params.setMarginStart(32);
         params.setMarginEnd(32);
         messageTV.setLayoutParams(params);
+        params = new RelativeLayout.LayoutParams(params);
+        params.addRule(RelativeLayout.TEXT_ALIGNMENT_CENTER);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        holder.senderTV.setLayoutParams(params);
     }
 
     public MessageAdapter(Context context, LinkedList<Message> messages, String userID, ImageView senderIV, ImageView recipientIV) {

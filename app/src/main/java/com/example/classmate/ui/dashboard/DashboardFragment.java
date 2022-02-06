@@ -84,10 +84,10 @@ public class DashboardFragment extends Fragment {
     }
 
     private void getForumIDS(DocumentSnapshot snapshot) {
-        ArrayList<Map<String, ?>> forums = (ArrayList<Map<String, ?>>) snapshot.get("forums");
+        ArrayList<String> forums = (ArrayList<String>) snapshot.get("forums");
         if (forums == null) forums = new ArrayList<>();
-        for (Map<String, ?> forum : forums)
-            firestore.collection("forums").document(Forum.Companion.from(forum).getUid()).get()
+        for (String forum : forums)
+            firestore.collection("forums").document(forum).get()
                     .addOnSuccessListener(this::updateForums);
     }
 
