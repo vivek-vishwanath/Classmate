@@ -47,6 +47,10 @@ public class Bitmaps {
         return getBytes(getBitmap(imageView));
     }
 
+    public static byte[] getBytes(Context context, int drawable) {
+        return getBytes(getBitmap(context, drawable));
+    }
+
     public static Bitmap getBitmap(byte[] bytes) {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
@@ -61,13 +65,16 @@ public class Bitmaps {
         return getDrawable(imageView).getBitmap();
     }
 
+    public static Bitmap getBitmap(Context context, int drawable) {
+        return getCircularBitmap(BitmapFactory.decodeResource(context.getResources(), drawable));
+    }
+
     public static void setBytes(ImageView imageView, byte[] bytes) {
         Bitmap bitmap = getCircularBitmap(bytes);
         imageView.setImageBitmap(bitmap);
     }
 
-    public static Bitmap getCircularBitmap(byte[] bytes) {
-        Bitmap bitmap = getBitmap(bytes);
+    public static Bitmap getCircularBitmap(Bitmap bitmap) {
         int bitmapSideLength = Math.min(bitmap.getWidth(), bitmap.getHeight());
         Bitmap dstBitmap = Bitmap.createBitmap(bitmapSideLength, bitmapSideLength, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(dstBitmap);
@@ -84,12 +91,12 @@ public class Bitmaps {
         return dstBitmap;
     }
 
-    public static Bitmap getCircularBitmap(Bitmap bitmap) {
-        return getCircularBitmap(getBytes(bitmap));
+    public static Bitmap getCircularBitmap(byte[] bytes) {
+        return getCircularBitmap(getBitmap(bytes));
     }
 
     public static byte[] getCircularBytes(Bitmap bitmap) {
-        return getBytes(getCircularBitmap(getBytes(bitmap)));
+        return getBytes(getCircularBitmap(bitmap));
     }
 
     public static byte[] getCircularBytes(byte[] bytes) {

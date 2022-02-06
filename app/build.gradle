@@ -50,8 +50,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.0'
 
 
-    implementation 'com.sun.mail:android-mail:1.5.5'
-    implementation 'com.sun.mail:android-activation:1.5.5'
+    implementation 'com.sun.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.6'
 
     implementation 'com.itextpdf:itextg:5.5.10'
 

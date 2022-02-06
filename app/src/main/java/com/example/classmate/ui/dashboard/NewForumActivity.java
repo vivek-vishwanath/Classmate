@@ -13,9 +13,12 @@ import android.widget.Toast;
 import com.example.classmate.R;
 import com.example.classmate.objects.Forum;
 import com.example.classmate.objects.User;
+import com.example.classmate.statics.Bitmaps;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
 import java.util.UUID;
@@ -24,6 +27,7 @@ public class NewForumActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseFirestore firestore;
+    StorageReference storage;
 
     EditText nameET, descriptionET;
     TextView keyTextView;
@@ -56,6 +60,7 @@ public class NewForumActivity extends AppCompatActivity {
     private void firebase() {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance().getReference();
         userID = auth.getUid();
     }
 
@@ -104,7 +109,10 @@ public class NewForumActivity extends AppCompatActivity {
         newForum = new Forum(forumID, name, description, isPrivate, currentUser);
 
         firestore.collection("forums").document(forumID).set(newForum);
-        firestore.collection("users").document(userID).get().addOnSuccessListener(this::updateUser);
+        firestore.collection("users").document(userID)
+                .get().addOnSuccessListener(this::updateUser);
+        storage.child("forum_icons").child(forumID)
+                .putBytes(Bitmaps.getBytes(this, newForum.getDrawable()));
     }
 
     private void updateUser(DocumentSnapshot snapshot) {

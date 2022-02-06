@@ -1,8 +1,5 @@
 package com.example.classmate.adapters;
 
-import static com.example.classmate.statics.Bitmaps.MAX_SIZE;
-import static com.example.classmate.statics.Bitmaps.getCircularBitmap;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,32 +13,28 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.objects.Forum;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.example.classmate.Print;
 import com.example.classmate.R;
+import com.example.classmate.objects.Forum;
 import com.example.classmate.objects.Message;
 import com.example.classmate.objects.User;
 import com.example.classmate.statics.Bitmaps;
 import com.example.classmate.ui.messages.ChatActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
+public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder> {
 
     DatabaseReference database;
     FirebaseFirestore firestore;
-    StorageReference storageReference;
 
     Activity activity;
 
@@ -101,12 +94,24 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         firestore.collection("forums").document(forum).get()
                 .addOnSuccessListener(snapshot -> onSuccessPull(snapshot, position))
                 .addOnFailureListener(this::failedPull);
+    }
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference().child("pfp").child(forum);
-        storageReference.getBytes(MAX_SIZE)
-                .addOnSuccessListener(bytes -> pfpIV[position].setImageBitmap(getCircularBitmap(bytes)))
-                .addOnFailureListener(bytes -> Bitmaps.setBytes(pfpIV[position], Bitmaps.Default.getBytes(activity)));
+    public void onSuccessPull(DocumentSnapshot snapshot, int position) {
+        Print.i(position);
+        if (snapshot.exists() && snapshot.getData() != null) {
+            Forum forum = Forum.Companion.from(snapshot.getData());
+            nameTV[position].setText(forum.getName());
+            pfpIV[position].setImageBitmap(Bitmaps.getBitmap(activity, forum.getDrawable()));
+
+            database.child("chats").child(forum.getId()).child("recent").get().addOnSuccessListener(
+                    s -> getRecentMessage(s, position)
+            );
+        }
+    }
+
+    private void failedPull(Exception e) {
+        Print.i("Pull Failed");
+        e.printStackTrace();
     }
 
     public void getRecentMessage(DataSnapshot snapshot, int position) {
@@ -117,30 +122,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             Message message = Message.CREATOR.from(map);
             recentMessages[position] = message;
             boolean fromSender = userID.equals(recentMessages[position].getSenderID());
-            String text = (fromSender ? "You: " : "" + ": ") + message.getText();
+            String text = (fromSender ? "You: " : message.getSenderName() + ": ") + message.getText();
             recentMessageTV[position].setText(text);
         } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
-    }
-
-    public void onSuccessPull(DocumentSnapshot snapshot, int position) {
-        Print.i(position);
-        if (snapshot.exists() && snapshot.getData() != null) {
-            Forum forum = Forum.Companion.from(snapshot.getData());
-            nameTV[position].setText(forum.getName());
-
-            database.child("chats").child(forum.getId()).child("recent").get().addOnSuccessListener(
-                    s -> getRecentMessage(s, position)
-            );
-        }
-    }
-
-    // TODO: Resolve RuntimeException
-    private void failedPull(Exception e) {
-        Print.i("Pull Failed");
-        e.printStackTrace();
-        throw new RuntimeException(e.getMessage());
     }
 
     private void onClick(int position) {
@@ -169,7 +155,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         .addOnSuccessListener(unused -> activity.finish());
     }
 
-    private UsersAdapter(ArrayList<String> forums, String userID, boolean query) {
+    private ForumsAdapter(ArrayList<String> forums, String userID, boolean query) {
         this.forums = new ArrayList<>(forums);
         this.holders = new ArrayList<>();
         this.userID = userID;
@@ -184,7 +170,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             Print.i(s);
     }
 
-    public UsersAdapter(Activity activity, ArrayList<String> forums, String userID, boolean query) {
+    public ForumsAdapter(Activity activity, ArrayList<String> forums, String userID, boolean query) {
         this(forums, userID, query);
         this.activity = activity;
     }

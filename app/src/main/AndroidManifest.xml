@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FBLA">
         <activity
+            android:name=".ui.messages.EventsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.NavigationDrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_drawer"
@@ -26,7 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.AddCoursesActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.messages.ChatActivity"
             android:exported="false" />

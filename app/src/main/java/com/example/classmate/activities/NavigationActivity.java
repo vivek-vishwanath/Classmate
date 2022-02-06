@@ -3,7 +3,6 @@ package com.example.classmate.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.classmate.objects.Forum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -22,7 +21,7 @@ import com.example.classmate.Print;
 import com.example.classmate.R;
 import com.example.classmate.databinding.ActivityBottomNavigationBinding;
 import com.example.classmate.objects.User;
-import com.example.classmate.adapters.UsersAdapter;
+import com.example.classmate.adapters.ForumsAdapter;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,7 @@ public class NavigationActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    UsersAdapter adapter;
+    ForumsAdapter adapter;
 
     ArrayList<String> forums;
     private String userID;
@@ -83,7 +82,7 @@ public class NavigationActivity extends AppCompatActivity {
         }
         User user = User.Companion.from(snapshot.getData());
         forums = user.getForums();
-        adapter = new UsersAdapter(this, forums, userID, false);
+        adapter = new ForumsAdapter(this, forums, userID, false);
     }
 
     @Override

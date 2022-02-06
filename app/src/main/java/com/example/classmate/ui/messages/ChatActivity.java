@@ -2,7 +2,10 @@ package com.example.classmate.ui.messages;
 
 import static com.example.classmate.statics.Bitmaps.MAX_SIZE;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.classmate.adapters.MessageAdapter;
+import com.example.classmate.objects.Event;
 import com.example.classmate.objects.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -151,6 +155,24 @@ public class ChatActivity extends AppCompatActivity {
         messageET.setText("");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        final int id = item.getItemId();
+        if(id == R.id.navigation_events) {
+            Intent intent = new Intent(this, EventsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.navigation_settings) {
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -160,11 +182,8 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
-            Message message = messages.remove(position);
+            messages.remove(position);
             adapter.notifyItemRemoved(position);
-            reference.child(chatID).get().addOnSuccessListener(snapshot -> {
-
-            });
         }
     };
 

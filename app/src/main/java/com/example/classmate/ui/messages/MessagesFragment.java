@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.objects.Forum;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,10 +22,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.classmate.Print;
 import com.example.classmate.R;
-import com.example.classmate.activities.NavigationActivity;
 import com.example.classmate.objects.User;
 import com.example.classmate.databinding.FragmentMessagesBinding;
-import com.example.classmate.adapters.UsersAdapter;
+import com.example.classmate.adapters.ForumsAdapter;
 
 import java.util.ArrayList;
 
@@ -46,7 +44,7 @@ public class MessagesFragment extends Fragment {
     FloatingActionButton button;
     RecyclerView contactsRV;
 
-    UsersAdapter adapter;
+    ForumsAdapter adapter;
 
     private String userID;
     ArrayList<String> forums;
@@ -112,7 +110,7 @@ public class MessagesFragment extends Fragment {
         }
         User user = User.Companion.from(snapshot.getData());
         forums = user.getForums();
-        adapter = new UsersAdapter(requireActivity(), forums, userID, false);
+        adapter = new ForumsAdapter(requireActivity(), forums, userID, false);
         setRecyclerView();
     }
 

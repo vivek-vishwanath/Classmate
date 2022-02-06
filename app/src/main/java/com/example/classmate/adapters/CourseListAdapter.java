@@ -2,7 +2,6 @@ package com.example.classmate.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.Print;
 import com.example.classmate.R;
 import com.example.classmate.objects.Course;
-import com.example.classmate.statics.Background;
+import com.example.classmate.statics.Graphics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolder> {
 
@@ -78,7 +75,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
             setSpinners(course);
         } else {
             holder.courseTV.setText(course.getName());
-            holder.colorView.setBackground(Background.getCourseTabDrawable(activity, course.getColor()));
+            holder.colorView.setBackground(Graphics.getCourseTabDrawable(activity, course.getColor()));
         }
     }
 

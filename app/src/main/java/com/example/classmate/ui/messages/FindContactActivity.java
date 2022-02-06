@@ -23,9 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.classmate.R;
-import com.example.classmate.adapters.UsersAdapter;
-
-import org.checkerframework.checker.units.qual.A;
+import com.example.classmate.adapters.ForumsAdapter;
 
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ public class FindContactActivity extends AppCompatActivity {
     EditText searchET;
     ImageView searchIcon;
 
-    UsersAdapter adapter;
+    ForumsAdapter adapter;
 
     String userID;
     String search;
@@ -86,7 +84,7 @@ public class FindContactActivity extends AppCompatActivity {
     }
 
     public void setRecyclerView() {
-        adapter = new UsersAdapter(this, forums, userID, true);
+        adapter = new ForumsAdapter(this, forums, userID, true);
         queryRV.setAdapter(adapter);
         queryRV.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -116,7 +114,7 @@ public class FindContactActivity extends AppCompatActivity {
                 forums.add(forum.getId());
             }
         }
-        adapter = new UsersAdapter(this, forums, userID, true);
+        adapter = new ForumsAdapter(this, forums, userID, true);
         queryRV.setAdapter(adapter);
     }
 

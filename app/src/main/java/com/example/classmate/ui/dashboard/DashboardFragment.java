@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.classmate.R;
-import com.example.classmate.adapters.ForumAdapter;
 import com.example.classmate.databinding.FragmentDashboardBinding;
 import com.example.classmate.objects.Forum;
 
@@ -35,10 +34,7 @@ public class DashboardFragment extends Fragment {
             new ActivityResultContracts.StartActivityForResult(), result -> pullFromDatabase()
     );
 
-    GridView gridView;
     FloatingActionButton addForumButton;
-
-    ForumAdapter adapter;
 
     ArrayList<Forum> forums;
     String userID;
@@ -52,7 +48,6 @@ public class DashboardFragment extends Fragment {
         firebase();
         setResourceObjects(root);
         setListeners();
-        setGridView();
         pullFromDatabase();
 
         return root;
@@ -65,7 +60,6 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setResourceObjects(View root) {
-        gridView = root.findViewById(R.id.dashboard_grid_view);
         addForumButton = root.findViewById(R.id.add_forum_floating_action_button);
     }
 
@@ -96,13 +90,6 @@ public class DashboardFragment extends Fragment {
         if (data == null) return;
         Forum forum = Forum.Companion.from(data);
         forums.add(forum);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void setGridView() {
-        forums = new ArrayList<>();
-        adapter = new ForumAdapter(requireContext(), forums);
-        gridView.setAdapter(adapter);
     }
 
     private String getUserID() {
