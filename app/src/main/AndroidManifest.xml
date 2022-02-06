@@ -14,33 +14,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FBLA">
         <activity
-            android:name=".ui.messages.EventsActivity"
+            android:name="com.example.classmate.fragments.messages.menu.EventsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.NavigationDrawerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.FBLA.NoActionBar" />
-        <activity
-            android:name=".ui.dashboard.NewForumActivity"
+            android:name=".fragments.dashboard.NewForumActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LunchMenuActivity"
+            android:name=".login.LunchMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AddCoursesActivity"
+            android:name=".login.AddCoursesActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.messages.ChatActivity"
+            android:name="com.example.classmate.fragments.messages.chat.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.messages.FindContactActivity"
+            android:name="com.example.classmate.fragments.messages.main.FindForumActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.CreateAccountActivity"
+            android:name=".login.CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.NavigationActivity"
+            android:name=".NavigationActivity"
             android:exported="false"
             android:label="@string/app_name" />
 

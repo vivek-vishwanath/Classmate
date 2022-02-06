@@ -87,7 +87,6 @@ public class Bitmaps {
         float left = (bitmapSideLength - bitmap.getWidth()) / 2f;
         float top = (bitmapSideLength - bitmap.getHeight()) / 2f;
         canvas.drawBitmap(bitmap, left, top, paint);
-        bitmap.recycle();
         return dstBitmap;
     }
 
