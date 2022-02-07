@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.classmate.NavigationActivity;
+import com.example.classmate.VerticalSpacingItemDecorator;
 import com.example.classmate.fragments.profile.CourseListAdapter;
 import com.example.classmate.fragments.profile.User;
 import com.example.classmate.statics.Bitmaps;
@@ -124,20 +125,6 @@ public class AddCoursesActivity extends AppCompatActivity {
             adapter.notifyItemRemoved(position);
         }
     };
-
-    public static class VerticalSpacingItemDecorator extends RecyclerView.ItemDecoration {
-
-        private final int verticalSpaceHeight;
-
-        public VerticalSpacingItemDecorator(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-            outRect.bottom = verticalSpaceHeight;
-        }
-    }
 
     public void finish(View view) {
         dialog.show();

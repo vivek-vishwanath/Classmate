@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".messages.FindContactActivity">
+    tools:context=".fragments.messages.main.FindForumActivity">
 
     <EditText
         android:id="@+id/contact_search_edit_text"
@@ -15,7 +15,7 @@
         android:layout_marginTop="64dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
-        android:hint="@string/handle"
+        android:hint="Group Name"
         android:inputType="textPersonName"
         android:padding="20dp"
         android:textColor="@color/text_color"

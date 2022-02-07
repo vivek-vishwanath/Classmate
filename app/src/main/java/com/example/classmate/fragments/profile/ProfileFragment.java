@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.classmate.VerticalSpacingItemDecorator;
 import com.example.classmate.fragments.profile.Course;
 import com.example.classmate.login.AddCoursesActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -111,7 +112,7 @@ public class ProfileFragment extends Fragment {
         if(courses == null) return;
         adapter = new CourseListAdapter(requireActivity(), courses, false);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new AddCoursesActivity.VerticalSpacingItemDecorator(8));
+        recyclerView.addItemDecoration(new VerticalSpacingItemDecorator(8));
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 

@@ -10,6 +10,8 @@ import kotlin.collections.ArrayList
 
 data class Forum(val id: String, val name: String, val description: String, val privacy: Boolean, val users: ArrayList<User>, val events: ArrayList<Event>) : Serializable {
 
+    val key = id.substring(0, 6)
+
     constructor(id: String, name: String, description: String, privacy: Boolean, user: User) :
             this(id, name, description, privacy, ArrayList(listOf(user)), ArrayList())
 
@@ -33,16 +35,5 @@ data class Forum(val id: String, val name: String, val description: String, val 
         if(name[0] > 96.toChar() && name[0] < 123.toChar())
             return Graphics.PROFILE_PIC_LETTERS[name[0] - 97.toChar()]
         return R.drawable.account_circle_grey
-    }
-
-    fun getMap(): Map<String, Any> {
-        val map = HashMap<String, Any>()
-        map["name"] = name
-        map["id"] = id
-        map["description"] = description
-        map["privacy"] = privacy
-        map["users"] = users
-        map["events"] = events
-        return map
     }
 }

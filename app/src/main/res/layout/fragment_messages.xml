@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".messages.MessagesFragment">
+    tools:context=".fragments.messages.main.MessagesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contacts_recycler_view"
@@ -30,8 +30,49 @@
         android:layout_marginBottom="80dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_24"
+        android:background="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:tint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/todo" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_forum_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_search_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/add_new_contact_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/join_private_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_lock_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/search_forum_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_new_forum_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_group_add_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/join_private_button"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

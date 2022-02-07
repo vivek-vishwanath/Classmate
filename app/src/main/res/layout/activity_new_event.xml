@@ -78,14 +78,41 @@
         app:layout_constraintStart_toStartOf="@+id/new_event_from_text_view"
         app:layout_constraintTop_toBottomOf="@+id/new_event_from_text_view" />
 
+    <TextView
+        android:id="@+id/from_date_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_event_from_date_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/new_event_from_date_spinner"
+        app:layout_constraintStart_toStartOf="@+id/new_event_from_date_spinner"
+        app:layout_constraintTop_toTopOf="@+id/new_event_from_date_spinner" />
+
     <Spinner
         android:id="@+id/new_event_from_time_spinner"
-        android:layout_width="128dp"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:minHeight="42dp"
         app:layout_constraintEnd_toEndOf="@+id/new_event_description"
         app:layout_constraintTop_toBottomOf="@+id/new_event_from_text_view" />
+
+    <TextView
+        android:id="@+id/from_time_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_event_from_time_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/new_event_from_time_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/new_event_from_time_spinner"
+        app:layout_constraintTop_toTopOf="@+id/new_event_from_time_spinner" />
 
     <TextView
         android:id="@+id/new_event_to_text_view"
@@ -110,25 +137,52 @@
         app:layout_constraintStart_toStartOf="@+id/new_event_from_text_view"
         app:layout_constraintTop_toBottomOf="@+id/new_event_to_text_view" />
 
+    <TextView
+        android:id="@+id/to_date_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_event_to_date_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/new_event_to_date_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/new_event_to_date_spinner"
+        app:layout_constraintTop_toTopOf="@+id/new_event_to_date_spinner" />
+
     <Spinner
         android:id="@+id/new_event_to_time_spinner"
-        android:layout_width="128dp"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:minHeight="42dp"
         app:layout_constraintEnd_toEndOf="@+id/new_event_from_time_spinner"
         app:layout_constraintTop_toBottomOf="@+id/new_event_to_text_view" />
 
+    <TextView
+        android:id="@+id/to_time_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_event_to_time_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/new_event_to_time_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/new_event_to_time_spinner"
+        app:layout_constraintTop_toTopOf="@+id/new_event_to_time_spinner" />
+
     <ImageView
         android:id="@+id/new_event_location_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="32dp"
-        android:src="@drawable/ic_baseline_info_24"
+        android:src="@drawable/ic_baseline_location_on_24"
         app:layout_constraintBottom_toBottomOf="@+id/new_event_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/new_event_location"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+        app:layout_constraintTop_toTopOf="@+id/new_event_location" />
 
     <EditText
         android:id="@+id/new_event_location"
@@ -149,8 +203,9 @@
         android:id="@+id/new_event_create_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:text="Create Event"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_event_location" />

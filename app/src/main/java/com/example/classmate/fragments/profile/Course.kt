@@ -40,15 +40,6 @@ data class Course(@Nullable var name: String, @Nullable var field: String, @Null
         }
     }
 
-    fun serialize(): String {
-        val stream = ByteArrayOutputStream()
-        val objStream = ObjectOutputStream(stream)
-        objStream.writeObject(this)
-        objStream.flush()
-        val bytes: ByteArray = Base64.getEncoder().encode(stream.toByteArray())
-        return String(bytes)
-    }
-
     fun getColor(): Int {
         when(field) {
             "Math" -> return Color.BLUE

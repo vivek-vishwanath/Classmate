@@ -1,98 +1,102 @@
 package com.example.classmate.fragments.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.fragments.messages.main.Forum;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.classmate.Print;
+import com.example.classmate.R;
+import com.example.classmate.VerticalSpacingItemDecorator;
+import com.example.classmate.databinding.FragmentDashboardBinding;
+import com.example.classmate.fragments.messages.menu.Event;
+import com.example.classmate.fragments.messages.menu.EventAdapter;
+import com.example.classmate.fragments.profile.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.example.classmate.R;
-import com.example.classmate.databinding.FragmentDashboardBinding;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
-    FirebaseAuth auth;
     FirebaseFirestore firestore;
+    FirebaseAuth auth;
 
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(), result -> pullFromDatabase()
-    );
+    RecyclerView recyclerView;
 
-    FloatingActionButton addForumButton;
+    EventAdapter adapter;
 
-    ArrayList<Forum> forums;
+    ArrayList<Event> events;
+
     String userID;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
 
         View root = binding.getRoot();
 
-//        firebase();
+        firebase();
         setResourceObjects(root);
-        setListeners();
-//        pullFromDatabase();
+        pullFromDatabase();
 
         return root;
     }
 
     private void firebase() {
-        auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
         userID = auth.getUid();
     }
 
     private void setResourceObjects(View root) {
-        addForumButton = root.findViewById(R.id.add_forum_floating_action_button);
-    }
-
-    private void setListeners() {
-        addForumButton.setOnClickListener(this::onAddForum);
-    }
-
-    private void onAddForum(View view) {
-        Intent intent = new Intent(requireContext(), NewForumActivity.class);
-        launcher.launch(intent);
+        recyclerView = root.findViewById(R.id.calendar_events_recycler_view);
     }
 
     private void pullFromDatabase() {
-//        firestore.collection("users").document(getUserID())
-//                .get().addOnSuccessListener(this::getForumIDS);
+        Print.i("Pulling Firebase");
+        events = new ArrayList<>();
+        firestore.collection("users").document(userID).get().addOnSuccessListener(this::successUser);
     }
 
-    private void getForumIDS(DocumentSnapshot snapshot) {
-        ArrayList<String> forums = (ArrayList<String>) snapshot.get("forums");
-        if (forums == null) forums = new ArrayList<>();
-        for (String forum : forums)
+    private void successUser(DocumentSnapshot snapshot) {
+        if(snapshot.getData() == null) return;
+        User user = User.Companion.from(snapshot.getData());
+        Print.i(user.getForums());
+        for(String forum : user.getForums()) {
             firestore.collection("forums").document(forum).get()
-                    .addOnSuccessListener(this::updateForums);
+                    .addOnSuccessListener(this::successForums);
+        }
     }
 
-    private void updateForums(DocumentSnapshot snapshot) {
-        Map<String, ?> data = snapshot.getData();
-        if (data == null) return;
-        Forum forum = Forum.Companion.from(data);
-        forums.add(forum);
+    private void successForums(DocumentSnapshot snapshot) {
+        List<Map<String, ?>> list = (List<Map<String, ?>>) snapshot.get("events");
+        if (list != null) {
+            for (Map<String, ?> map : list) {
+                Print.i(map.get("name"));
+                events.add(Event.Companion.from(map));
+            }
+        }
+        Collections.sort(events);
+        setRecyclerView();
     }
 
-    private String getUserID() {
-        return userID;
+    private void setRecyclerView() {
+        adapter = new EventAdapter(requireActivity(), events);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.addItemDecoration(new VerticalSpacingItemDecorator(8));
     }
 
     @Override

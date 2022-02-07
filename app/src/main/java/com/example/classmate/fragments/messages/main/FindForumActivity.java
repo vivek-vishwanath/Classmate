@@ -108,7 +108,7 @@ public class FindForumActivity extends AppCompatActivity {
         forums = new ArrayList<>();
         for (QueryDocumentSnapshot data : snapshot) {
             Forum forum = Forum.Companion.from(data.getData());
-            if (contains(forum.getName(), search) && !existingForums.contains(forum.getId())) {
+            if (contains(forum.getName(), search) && !existingForums.contains(forum.getId()) && !forum.getPrivacy()) {
                 forums.add(forum.getId());
             }
         }

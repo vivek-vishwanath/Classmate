@@ -1,130 +1,195 @@
-package com.example.classmate.fragments.messages.menu;
+package com.example.classmate.fragments.messages.menu
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import com.example.classmate.fragments.messages.main.Forum.Companion.from
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
+import android.os.Bundle
+import com.example.classmate.R
+import com.google.firebase.firestore.DocumentSnapshot
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
+import android.view.View
+import android.widget.*
+import androidx.fragment.app.DialogFragment
+import com.example.classmate.Print
+import com.example.classmate.fragments.messages.main.Forum
+import java.util.*
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
+class NewEventActivity : AppCompatActivity() {
 
-import com.example.classmate.Print;
-import com.example.classmate.R;
-import com.example.classmate.fragments.messages.main.Forum;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+    var firestore: FirebaseFirestore? = null
 
-import java.util.Date;
-import java.util.List;
+    var nameET: EditText? = null; var descriptionET: EditText? = null; var locationET: EditText? = null
+    var fromDateTV: TextView? = null; var fromTimeTV: TextView? = null
+    var toDateTV: TextView? = null; var toTimeTV: TextView? = null
+    var createButton: Button? = null
 
-public class NewEventActivity extends AppCompatActivity {
+    var preferences: SharedPreferences? = null
 
-    FirebaseFirestore firestore;
+    var event: Event? = null
+    var from: Date = Date(); var to: Date = from
 
-    EditText nameET, descriptionET, locationET;
-    Spinner fromDateSpinner, fromTimeSpinner, toDateSpinner, toTimeSpinner;
-    Button createButton;
+    var forumID: String? = null
 
-    Event event;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_new_event)
 
-    Date from, to;
-    String forumID;
+        forumID = intent.getStringExtra("forumID")
+        from = roundUp(from)
+        to = roundUp(from)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_event);
+        preferences =  getSharedPreferences("com.example.classmate.fragments.messages.menu", Context.MODE_PRIVATE)
 
-        forumID = getIntent().getStringExtra("forumID");
-        from = roundUp(new Date());
-        to = roundUp(from);
-
-        firebase();
-        setResourceObjects();
-        setListeners();
+        firebase()
+        setResourceObjects()
+        setListeners()
+        setTextViews()
     }
 
-    public static Date roundUp(Date date) {
-        date.setTime(date.getTime() + 3600000);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return date;
+    private fun firebase() {
+        firestore = FirebaseFirestore.getInstance()
     }
 
-    private void firebase() {
-        firestore = FirebaseFirestore.getInstance();
+    private fun setResourceObjects() {
+        nameET = findViewById(R.id.new_event_name_edit_text)
+        descriptionET = findViewById(R.id.new_event_description)
+        fromDateTV = findViewById(R.id.from_date_text_view)
+        fromTimeTV = findViewById(R.id.from_time_text_view)
+        toDateTV = findViewById(R.id.to_date_text_view)
+        toTimeTV = findViewById(R.id.to_time_text_view)
+        locationET = findViewById(R.id.new_event_location)
+        createButton = findViewById(R.id.new_event_create_button)
     }
 
-    private void setResourceObjects() {
-        nameET = findViewById(R.id.new_event_name_edit_text);
-        descriptionET = findViewById(R.id.new_event_description);
-        fromDateSpinner = findViewById(R.id.new_event_from_date_spinner);
-        fromTimeSpinner = findViewById(R.id.new_event_from_time_spinner);
-        toDateSpinner = findViewById(R.id.new_event_to_date_spinner);
-        toTimeSpinner = findViewById(R.id.new_event_to_time_spinner);
-        locationET = findViewById(R.id.new_event_location);
-        createButton = findViewById(R.id.create_forum_button);
+    private fun setListeners() {
+        createButton!!.setOnClickListener { createEvent() }
+        fromDateTV!!.setOnClickListener { view: View -> datePick(view) }
+        toDateTV!!.setOnClickListener { view: View -> datePick(view) }
+        fromTimeTV!!.setOnClickListener { view: View -> timePick(view) }
+        toTimeTV!!.setOnClickListener { view: View ->timePick(view) }
     }
 
-    private void setListeners() {
-        createButton.setOnClickListener(this::createEvent);
-        fromDateSpinner.setOnClickListener(this::datePick);
-        toDateSpinner.setOnClickListener(this::datePick);
-        fromTimeSpinner.setOnClickListener(this::timePick);
-        toTimeSpinner.setOnClickListener(this::timePick);
+    private fun setTextViews() {
+        fromDateTV!!.text = getDate(from)
+        fromTimeTV!!.text = getTime(from)
+        toDateTV!!.text = getDate(to)
+        toTimeTV!!.text = getTime(to)
     }
 
-    private void datePick(View view) {
-        DatePickerFragment fragment = new DatePickerFragment(view == fromDateSpinner ? from : to);
-        fragment.show(getSupportFragmentManager(), "datePicker");
+    private fun datePick(view: View) {
+        val fragment = DatePickerFragment(if (view === fromDateTV) from else to, this)
+        fragment.show(supportFragmentManager, "datePicker")
     }
 
-    private void timePick(View view) {
-
+    private fun timePick(view: View) {
+        val fragment = TimePickerFragment(if (view === fromTimeTV) from else to, this)
+        fragment.show(supportFragmentManager, "datePicker")
     }
 
-    private void createEvent(View view) {
-        String name = nameET.getText().toString();
-        String description = descriptionET.getText().toString();
-        String location = locationET.getText().toString();
-        event = new Event(name, forumID, description, location, from, to);
-        firestore.collection("forums").document(forumID).get()
-                .addOnSuccessListener(this::onSuccess);
+    private fun createEvent() {
+        val name = nameET!!.text.toString()
+        val description = descriptionET!!.text.toString()
+        val location = locationET!!.text.toString()
+        event = Event(name, forumID!!, description, location, from, to)
+        firestore!!.collection("forums").document(forumID!!).get()
+            .addOnSuccessListener { snapshot: DocumentSnapshot -> this.onSuccess(snapshot) }
     }
 
-    private void onSuccess(DocumentSnapshot snapshot) {
-        if(snapshot.getData() == null) return;
-        Forum forum = Forum.Companion.from(snapshot.getData());
-        List<Event> events = forum.getEvents();
-        events.add(event);
-        firestore.collection("forums").document(forumID).update(forum.getMap());
+    private fun onSuccess(snapshot: DocumentSnapshot) {
+        if (snapshot.data == null) return
+        val forum = from(snapshot.data!!)
+        val events = forum.events
+        events.add(event!!)
+        firestore!!.collection("forums").document(forumID!!).update(getMap(forum))
+        preferences!!.edit().putString("created event", event!!.serialize()).apply()
+        setResult(1)
+        finish()
     }
 
-    static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    private fun getMap(forum: Forum): Map<String, Any> {
+        val map = HashMap<String, Any>()
+        map["name"] = forum.name
+        map["id"] = forum.id
+        map["description"] = forum.description
+        map["privacy"] = forum.privacy
+        map["users"] = forum.users
+        map["key"] = forum.key
+        map["events"] = forum.events
+        return map
+    }
 
-        Date date;
+    override fun onBackPressed() {
+        setResult(-1)
+        super.onBackPressed()
+    }
 
-        public DatePickerFragment(Date date) {
-            this.date = date;
+    internal class DatePickerFragment(var date: Date, var activity: NewEventActivity) :
+        DialogFragment(), OnDateSetListener {
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return DatePickerDialog(getActivity()!!, this, date.year + 1900, date.month, date.date)
         }
 
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return new DatePickerDialog(getActivity(), this, date.getYear(), date.getMonth(), date.getDate());
+        override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
+            date.year = year - 1900
+            date.month = month
+            date.date = day
+            activity.setTextViews()
+        }
+    }
+
+    internal class TimePickerFragment(var date: Date, var activity: NewEventActivity) :
+        DialogFragment(), TimePickerDialog.OnTimeSetListener {
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return TimePickerDialog(context!!, this, date.hours, date.minutes, false)
         }
 
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            date.setYear(year);
-            date.setMonth(month);
-            date.setDate(day);
-            Print.i(date);
+        override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+            date.hours = hourOfDay
+            date.minutes = minute
+            activity.setTextViews()
+        }
+    }
+
+    companion object {
+
+        fun roundUp(date: Date?): Date {
+            date!!.time = date.time + 3600000
+            date.minutes = 0
+            date.seconds = 0
+            return date
+        }
+
+        fun getDate(date: Date?): String {
+            var s = "${getDay(date!!.day)}  ${date.month + 1}/${date.date}"
+            if (date.year != Date().year) s += "/${date.year % 100}"
+            return s
+        }
+
+        fun getTime(date: Date?): String {
+            val hours = date!!.hours.toString()
+            var minutes = date.minutes.toString()
+            if (date.minutes < 10) minutes = "0$minutes"
+            return "$hours:$minutes"
+        }
+
+        private fun getDay(int: Int): String {
+            when(int) {
+                0 -> return "Sun"
+                1 -> return "Mon"
+                2 -> return "Tue"
+                3 -> return "Wed"
+                4 -> return "Thu"
+                5 -> return "Fri"
+                6 -> return "Sat"
+            }
+            return ""
         }
     }
 }
