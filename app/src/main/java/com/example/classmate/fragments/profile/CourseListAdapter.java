@@ -2,11 +2,16 @@ package com.example.classmate.fragments.profile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -41,16 +46,20 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         Spinner fieldSpinner, courseSpinner;
+        EditText teacherEmailET;
         TextView periodTV;
         TextView courseTV;
+        TextView teacherTV;
         View colorView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.fieldSpinner = itemView.findViewById(R.id.select_field_spinner);
             this.courseSpinner = itemView.findViewById(R.id.select_course_spinner);
+            this.teacherEmailET = itemView.findViewById(R.id.teacher_email_edit_text);
             this.periodTV = itemView.findViewById(R.id.course_period_text_view);
             this.courseTV = itemView.findViewById(R.id.course_name_text_view);
+            this.teacherTV = itemView.findViewById(R.id.course_teacher_text_view);
             this.colorView = itemView.findViewById(R.id.course_color_view);
         }
     }
@@ -73,10 +82,38 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         Course course = courses.get(position);
         if (editable) {
             setSpinners(course);
+            holder.teacherEmailET.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    course.setTeacher(s.toString());
+                }
+            });
         } else {
+            if(course.getTeacher() != null) {
+                String teacher = "Teacher: " + course.getTeacher();
+                holder.teacherTV.setText(teacher);
+                holder.teacherTV.setPaintFlags(holder.teacherTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                holder.teacherTV.setOnClickListener(view -> launchEmailActivity(course.getTeacher()));
+            }
             holder.courseTV.setText(course.getName());
             holder.colorView.setBackground(Graphics.getCourseTabDrawable(activity, course.getColor()));
         }
+    }
+
+    public void launchEmailActivity(String address) {
+        Intent intent = new Intent(activity, EmailActivity.class);
+        intent.putExtra("address", address);
+        activity.startActivity(intent);
     }
 
     public void setSpinners(Course course) {

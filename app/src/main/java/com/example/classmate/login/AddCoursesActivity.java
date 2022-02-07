@@ -96,7 +96,7 @@ public class AddCoursesActivity extends AppCompatActivity {
     }
 
     private void addCourse(View view) {
-        courses.add(new Course("", "", courses.size()));
+        courses.add(new Course("", "", "", courses.size()));
         adapter.notifyItemInserted(courses.size() - 1);
         recyclerView.scrollToPosition(courses.size() - 1);
     }
@@ -136,16 +136,16 @@ public class AddCoursesActivity extends AppCompatActivity {
     }
 
     private void userCreated(AuthResult authResult) {
-        dialog.dismiss();
         assert authResult.getUser() != null;
         String userID = authResult.getUser().getUid();
         firestore.collection("users").get().addOnSuccessListener(snapshots -> {
             firestore.collection("users").document(userID).set(user);
             storage.child("pfp").child(userID + ".png").putBytes(Bitmaps.Default.getBytes(this));
+            dialog.dismiss();
+            Intent intent = new Intent(this, NavigationActivity.class);
+            startActivityForResult(intent, 1);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         });
-        Intent intent = new Intent(this, NavigationActivity.class);
-        startActivityForResult(intent, 1);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     private void failure(Exception e) {

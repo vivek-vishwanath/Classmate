@@ -6,19 +6,18 @@ import java.util.*
 import javax.annotation.Nullable
 import kotlin.collections.ArrayList
 
-data class Course(@Nullable var name: String, @Nullable var field: String, @Nullable var period: Int): Serializable {
-
-
+data class Course(@Nullable var name: String, @Nullable var field: String, @Nullable var teacher: String?, @Nullable var period: Int): Serializable {
 
     companion object {
 
-        val OTHER: Course = Course("Other", "Other", -1)
+        val OTHER: Course = Course("Other", "Other", null, -1)
 
         fun from(map: Map<String, Any>) = object {
             val name: String by map
             val field: String by map
+            val teacher: String by map
             val period: Int by map
-            val data = Course(name, field, period)
+            val data = Course(name, field, teacher, period)
         }.data
 
         fun serialize(courses: ArrayList<Course>): String {

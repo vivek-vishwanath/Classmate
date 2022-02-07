@@ -18,12 +18,6 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.example.classmate.fragments.search.SearchFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
-
-    <fragment
         android:id="@+id/navigation_messages"
         android:name="com.example.classmate.fragments.messages.main.MessagesFragment"
         android:label="@string/title_messages"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ProfileFragment">
+    tools:context=".fragments.profile.ProfileFragment">
 
     <TextView
         android:id="@+id/profile_email_text_view"
@@ -12,10 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif-condensed-light"
         android:textColor="@color/text_off_color"
         android:textSize="24sp"
         android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/profile_picture"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_name_text_view"
         tools:text="user@email.com" />
@@ -26,12 +29,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/comfortaa"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/text_color"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/profile_picture"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
