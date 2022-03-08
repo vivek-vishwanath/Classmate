@@ -29,7 +29,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.example.classmate.Print;
 import com.example.classmate.R;
 import com.example.classmate.statics.Bitmaps;
 
@@ -106,7 +105,6 @@ public class ChatActivity extends AppCompatActivity {
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Print.i(snapshot.getKey());
                 if (snapshot.getValue() == null || "recent".equals(snapshot.getKey())) return;
                 Map<String, Object> map = new HashMap<>();
                 for(DataSnapshot s : snapshot.getChildren()) map.put(s.getKey(), s.getValue());
@@ -114,28 +112,26 @@ public class ChatActivity extends AppCompatActivity {
                 adapter.notifyItemInserted(messages.size() - 1);
                 adapter.notifyItemChanged(messages.size() - 2);
                 recyclerView.scrollToPosition(messages.size() - 1);
-                Print.i(previousChildName);
-                Print.i(messages);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Print.i("Child Changed");
+
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                Print.i("Child Removed");
+
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Print.i("Child Moved");
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Print.i("Cancelled");
+
             }
         });
     }

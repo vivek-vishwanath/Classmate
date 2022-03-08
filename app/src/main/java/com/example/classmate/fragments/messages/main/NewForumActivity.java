@@ -1,4 +1,4 @@
-package com.example.classmate.fragments.dashboard;
+package com.example.classmate.fragments.messages.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +45,7 @@ public class NewForumActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_forum);
+        setTitle("New Club");
 
         firebase();
         setResourceObjects();

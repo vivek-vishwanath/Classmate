@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.classmate.R;
-import com.example.classmate.fragments.profile.Course;
 import com.example.classmate.statics.Graphics;
 
 import org.json.JSONArray;
@@ -31,15 +29,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.ViewHolder> {
 
     Activity activity;
 
-    ArrayList<ViewHolder> holders;
-    ViewHolder holder;
-
     ArrayList<Course> courses;
+    Map<String, ArrayList<String>> catalog;
+    String[] fields;
 
     boolean editable;
 
@@ -70,9 +69,7 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(editable ? R.layout.card_course : R.layout.card_course_fixed, parent, false);
-        holder = new ViewHolder(contactView);
-        holders.add(holder);
-        return holder;
+        return new ViewHolder(contactView);
     }
 
     @Override
@@ -80,29 +77,15 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         String period = "Period " + (position + 1);
         holder.periodTV.setText(period);
         Course course = courses.get(position);
+        course.setPeriod(position + 1);
         if (editable) {
-            setSpinners(course);
-            holder.teacherEmailET.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    course.setTeacher(s.toString());
-                }
-            });
+            setSpinners(course, holder);
+            holder.teacherEmailET.addTextChangedListener((TextChanged) s -> courses.get(position).setTeacher(s.toString()));
         } else {
-            if(course.getTeacher() != null) {
+            if (course.getTeacher() != null) {
                 String teacher = "Teacher: " + course.getTeacher();
                 holder.teacherTV.setText(teacher);
-                holder.teacherTV.setPaintFlags(holder.teacherTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                holder.teacherTV.setPaintFlags(holder.teacherTV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 holder.teacherTV.setOnClickListener(view -> launchEmailActivity(course.getTeacher()));
             }
             holder.courseTV.setText(course.getName());
@@ -116,25 +99,17 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         activity.startActivity(intent);
     }
 
-    public void setSpinners(Course course) {
-        try {
-            JSONObject object = new JSONObject(loadJSONFromAsset());
-            JSONArray array = object.getJSONArray("Subjects");
-            String[] fields = new String[array.length()];
-            for (int i = 0; i < array.length(); i++) {
-                fields[i] = array.getJSONObject(i).getString("Class");
-            }
-            SpinnerAdapter adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, fields);
-            holder.fieldSpinner.setAdapter(adapter);
-            holder.fieldSpinner.setOnItemSelectedListener(
-                    (OnItemSelectedListener) (parent, view, pos, id) ->
-                            onItemSelected(course, array, pos));
-            holder.courseSpinner.setOnItemSelectedListener(
-                    (OnItemSelectedListener) (parent, view, pos, id) ->
-                            course.setName((String) holder.courseSpinner.getItemAtPosition(pos)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void setSpinners(Course course, ViewHolder holder) {
+        SpinnerAdapter adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, fields);
+        holder.fieldSpinner.setAdapter(adapter);
+        holder.fieldSpinner.setOnItemSelectedListener(
+                (OnItemSelectedListener) (parent, view, position, id) ->
+                        holder.courseSpinner.setAdapter(onItemSelected(course, position))
+        );
+        holder.courseSpinner.setOnItemSelectedListener(
+                (OnItemSelectedListener) (parent, view, pos, id) ->
+                        course.setName((String) holder.courseSpinner.getItemAtPosition(pos))
+        );
     }
 
     interface OnItemSelectedListener extends AdapterView.OnItemSelectedListener {
@@ -143,20 +118,18 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         }
     }
 
-    public void onItemSelected(Course course, JSONArray array, int pos) {
-        try {
-            course.setField((String) holder.fieldSpinner.getItemAtPosition(pos));
-            JSONArray arr = array.getJSONObject(pos).getJSONArray("Courses");
-            String[] courses = new String[arr.length() + 1];
-            for (int i = 0; i < arr.length(); i++) {
-                courses[i] = arr.getString(i);
-            }
-            courses[arr.length()] = Course.Companion.getOTHER().getName();
-            SpinnerAdapter courseAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, courses);
-            holder.courseSpinner.setAdapter(courseAdapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    interface TextChanged extends TextWatcher {
+
+        @Override
+        default void beforeTextChanged(CharSequence s, int start, int count, int after){}
+
+        @Override
+        default void onTextChanged(CharSequence s, int start, int before, int count){}
+    }
+
+    public SpinnerAdapter onItemSelected(Course course, int position) {
+        course.setField(fields[position]);
+        return new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, catalog.get(fields[position]));
     }
 
     public String loadJSONFromAsset() {
@@ -174,12 +147,41 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseListAdapter.Vi
         return json;
     }
 
+    public void setCourseCatalog() throws JSONException {
+        JSONObject object = new JSONObject(loadJSONFromAsset());
+        JSONArray array = object.getJSONArray("Subjects");
+        catalog = new HashMap<>();
+        for (int i = 0; i < array.length(); i++) {
+            String field = array.getJSONObject(i).getString("Class");
+            ArrayList<String> list = new ArrayList<>();
+            JSONArray arr = array.getJSONObject(i).getJSONArray("Courses");
+            for (int j = 0; j < arr.length(); j++) {
+                list.add(arr.getString(j));
+            }
+            list.add("Other");
+            catalog.put(field, list);
+        }
+    }
+
+    public void setFields() {
+        fields = new String[catalog.size()];
+        int index = 0;
+        for (String key : catalog.keySet()) {
+            fields[index] = key;
+            index++;
+        }
+    }
+
 
     public CourseListAdapter(Activity activity, ArrayList<Course> courses, boolean editable) {
         this.activity = activity;
         this.courses = courses;
         this.editable = editable;
-        this.holders = new ArrayList<>();
+        try {
+            setCourseCatalog();
+            setFields();
+        } catch (JSONException e) {
+        }
     }
 
     @Override

@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/navigation_calendar"
-        android:name="com.example.classmate.fragments.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_messages"
         android:name="com.example.classmate.fragments.messages.main.MessagesFragment"
         android:label="@string/title_messages"

@@ -1,6 +1,5 @@
 package com.example.classmate.fragments.messages.main;
 
-import com.example.classmate.Print
 import com.example.classmate.R
 import com.example.classmate.fragments.messages.menu.Event
 import com.example.classmate.fragments.profile.User
@@ -29,7 +28,6 @@ data class Forum(val id: String, val name: String, val description: String, val 
     }
 
     fun getDrawable(): Int {
-        Print.i("First Letter: " + name[0])
         if(name[0] > 64.toChar() && name[0] < 91.toChar())
             return Graphics.PROFILE_PIC_LETTERS[name[0] - 65.toChar()]
         if(name[0] > 96.toChar() && name[0] < 123.toChar())

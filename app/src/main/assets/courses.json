@@ -1,6 +1,17 @@
 {
   "Subjects": [
     {
+      "Class": "Other",
+      "Courses": [
+        "Introduction to Healthcare Science",
+        "Essentials of Healthcare",
+        "Sports Medicine",
+        "Public Health",
+        "Gifted Directed Study",
+        "Gifted Career Internship"
+      ]
+    },
+    {
       "Class": "Math",
       "Courses": [
         "GSE Algebra I",
@@ -173,17 +184,6 @@
         "Acting",
         "Advanced Drama",
         "Technical Theatre"
-      ]
-    },
-    {
-      "Class": "Other",
-      "Courses": [
-        "Introduction to Healthcare Science",
-        "Essentials of Healthcare",
-        "Sports Medicine",
-        "Public Health",
-        "Gifted Directed Study",
-        "Gifted Career Internship"
       ]
     }
   ]

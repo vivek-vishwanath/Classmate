@@ -12,10 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +28,9 @@
         android:layout_marginBottom="80dp"
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_24"
-        android:background="@color/purple_500"
-        android:backgroundTint="@color/purple_500"
-        android:tint="@color/purple_500"
+        android:background="@color/app_color"
+        android:backgroundTint="@color/app_color"
+        android:tint="@color/app_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/todo" />
@@ -74,5 +72,34 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/join_private_button"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/clubs_empty_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:text="You aren't part of a club yet.\n\n\nUse the add button below to join or create a new club."
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <ImageView
+        android:id="@+id/clubs_down_arrow_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="48dp"
+        android:src="@drawable/ic_baseline_arrow_downward_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/search_forum_button"
+        app:layout_constraintEnd_toEndOf="@+id/search_forum_button"
+        app:layout_constraintStart_toStartOf="@+id/search_forum_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

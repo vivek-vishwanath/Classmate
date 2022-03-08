@@ -38,9 +38,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            eventNameTV = itemView.findViewById(R.id.event_title);
-            eventTimeTV = itemView.findViewById(R.id.event_date);
-            colorView = itemView.findViewById(R.id.event_color_view);
+            eventNameTV = itemView.findViewById(R.id.upcoming_event_title);
+            eventTimeTV = itemView.findViewById(R.id.upcoming_event_date);
+            colorView = itemView.findViewById(R.id.upcoming_event_color_view);
         }
     }
 
@@ -59,6 +59,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         holder.eventNameTV.setText(event.getName());
         holder.eventTimeTV.setText(event.getFrom().toString().substring(0, 16));
+        holder.colorView.setBackgroundColor(event.getColor());
 
         holder.itemView.setOnClickListener(view -> onClick(position));
     }

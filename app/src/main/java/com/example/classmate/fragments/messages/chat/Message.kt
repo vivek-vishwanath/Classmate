@@ -25,7 +25,8 @@ data class Message(@ColumnInfo(name = "text") val text: String,
 
     fun getTime(): String {
         return "${if(date.hours % 12 == 0) 12 else date.hours}:" +
-                "${date.minutes} ${if(date.hours < 12) "AM" else "PM"}"
+                "${if(date.minutes < 10) "0${date.minutes}" else date.minutes} " +
+                if(date.hours < 12) "AM" else "PM"
     }
 
     override fun toString(): String {

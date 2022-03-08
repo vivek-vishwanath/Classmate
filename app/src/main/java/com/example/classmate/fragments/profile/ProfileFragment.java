@@ -1,8 +1,6 @@
 package com.example.classmate.fragments.profile;
 
 import static com.example.classmate.statics.Bitmaps.MAX_SIZE;
-import static com.example.classmate.statics.Bitmaps.getBytes;
-import static com.example.classmate.statics.Bitmaps.getCircularBitmap;
 import static com.example.classmate.statics.Bitmaps.getCircularBytes;
 
 import android.content.Context;
@@ -26,15 +24,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.VerticalSpacingItemDecorator;
-import com.example.classmate.fragments.profile.Course;
-import com.example.classmate.login.AddCoursesActivity;
+import com.example.classmate.objects.VerticalSpacingItemDecorator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.example.classmate.Print;
 import com.example.classmate.R;
 import com.example.classmate.databinding.FragmentProfileBinding;
 import com.example.classmate.statics.Bitmaps;
@@ -127,8 +122,8 @@ public class ProfileFragment extends Fragment {
         grade = String.valueOf(sharedPreferences.getInt("grade", 12));
         courses = Course.Companion.deserialize(sharedPreferences.getString("courses", null));
 
-        String pfp = sharedPreferences.getString("pfp", null);
-        if(pfp != null) this.bytes = getBytes(pfp);
+//        String pfp = sharedPreferences.getString("pfp", null);
+//        if(pfp != null) this.bytes = getBytes(pfp);
 
         setTextViews();
         setPFP();
@@ -152,14 +147,12 @@ public class ProfileFragment extends Fragment {
 
     public void setPFP() {
         if (bytes != null) {
-            Print.i(bytes.length);
             Bitmaps.setBytes(profilePicIV, bytes);
-        } else {
-            Print.i("null");
         }
     }
 
     public void pullFromDatabase() {
+        if(userID == null) requireActivity().finish();
         firestore.collection("users").document(userID).get()
                 .addOnSuccessListener(this::firestoreSuccess);
 
@@ -185,7 +178,6 @@ public class ProfileFragment extends Fragment {
                 courses.add(Course.Companion.from(map));
             }
         }
-        Print.i(courses);
         sharedPreferences.edit().putString("name", name).apply();
         sharedPreferences.edit().putString("email", email).apply();
         sharedPreferences.edit().putInt("grade", user.getGrade()).apply();
@@ -201,22 +193,17 @@ public class ProfileFragment extends Fragment {
     }
 
     public void onReturn(ActivityResult result) {
-        Print.i("OnReturn()");
         if (result.getData() == null) return;
         Uri selectedImage = result.getData().getData();
-        Print.i("Selected Image");
         try {
             Bitmap bmp = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImage);
-            Print.i("Gotten Image");
             storageReference.child("pfp").child(userID).putBytes(getCircularBytes(bmp));
             bytes = Bitmaps.getBytes(bmp);
-            Print.i("Converted to Bytes");
             sharedPreferences.edit().putString("bytes", Arrays.toString(bytes)).apply();
             setPFP();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Print.i("Finished OnReturn()");
     }
 
     @Override

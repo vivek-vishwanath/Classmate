@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.classmate.Print;
 import com.example.classmate.R;
 import com.example.classmate.fragments.messages.chat.ChatActivity;
 import com.example.classmate.fragments.messages.chat.Message;
@@ -56,12 +55,12 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder
         TextView recentMessageTV;
         ImageView profileIV;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, boolean query) {
             super(itemView);
-            this.nameTV = itemView.findViewById(R.id.username_text_view);
-            this.profileIV = itemView.findViewById(R.id.pfp_image_view);
+            this.nameTV = itemView.findViewById(query ? R.id.query_username_text_view : R.id.username_text_view);
+            this.profileIV = itemView.findViewById(query ? R.id.query_pfp_image_view : R.id.pfp_image_view);
             this.recentMessageTV = itemView.findViewById(R.id.recent_message_text_view);
-            this.layout = itemView.findViewById(R.id.card_user_constraint_layout);
+            this.layout = itemView.findViewById(query ? R.id.query_card_user_constraint_layout : R.id.card_user_constraint_layout);
         }
     }
 
@@ -70,8 +69,8 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.card_user, parent, false);
-        holder = new ViewHolder(contactView);
+        View contactView = inflater.inflate(query ? R.layout.card_forum_query : R.layout.card_user, parent, false);
+        holder = new ViewHolder(contactView, query);
         holders.add(holder);
         return holder;
     }
@@ -79,7 +78,6 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String forum = forums.get(position);
-        Print.i(forum);
         nameTV[position] = holder.nameTV;
         pfpIV[position] = holder.profileIV;
         recentMessageTV[position] = holder.recentMessageTV;
@@ -96,20 +94,19 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder
     }
 
     public void onSuccessPull(DocumentSnapshot snapshot, int position) {
-        Print.i(position);
+        if(!query)
+        recentMessageTV[position].setText("You joined this club");
         if (snapshot.exists() && snapshot.getData() != null) {
             Forum forum = Forum.Companion.from(snapshot.getData());
             nameTV[position].setText(forum.getName());
             pfpIV[position].setImageBitmap(Bitmaps.getBitmap(activity, forum.getDrawable()));
 
-            database.child("chats").child(forum.getId()).child("recent").get().addOnSuccessListener(
-                    s -> getRecentMessage(s, position)
-            );
+            database.child("chats").child(forum.getId()).child("recent").get()
+                    .addOnSuccessListener(s -> getRecentMessage(s, position));
         }
     }
 
     private void failedPull(Exception e) {
-        Print.i("Pull Failed");
         e.printStackTrace();
     }
 
@@ -165,8 +162,6 @@ public class ForumsAdapter extends RecyclerView.Adapter<ForumsAdapter.ViewHolder
         this.recentMessages = new Message[forums.size()];
         firestore = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
-        for(String s : forums)
-            Print.i(s);
     }
 
     public ForumsAdapter(Activity activity, ArrayList<String> forums, String userID, boolean query) {

@@ -43,7 +43,7 @@ public class FindForumActivity extends AppCompatActivity {
     String userID;
     String search;
     ArrayList<String> forums = new ArrayList<>();
-    ArrayList<String> existingForums;
+    ArrayList<String> existingForums = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

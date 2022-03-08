@@ -26,14 +26,14 @@
             android:name=".fragments.messages.menu.EventsActivity"
             android:exported="false" />
         <activity
-            android:name=".fragments.dashboard.NewForumActivity"
+            android:name=".fragments.messages.main.NewForumActivity"
             android:exported="false" />
         <activity
             android:name=".login.LunchMenuActivity"
             android:exported="false" />
         <activity
             android:name=".login.AddCoursesActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".fragments.messages.chat.ChatActivity"
             android:exported="false" />

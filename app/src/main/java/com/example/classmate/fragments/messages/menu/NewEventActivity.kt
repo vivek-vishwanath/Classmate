@@ -15,7 +15,6 @@ import android.content.SharedPreferences
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.DialogFragment
-import com.example.classmate.Print
 import com.example.classmate.fragments.messages.main.Forum
 import java.util.*
 
@@ -31,7 +30,7 @@ class NewEventActivity : AppCompatActivity() {
     var preferences: SharedPreferences? = null
 
     var event: Event? = null
-    var from: Date = Date(); var to: Date = from
+    var from: Date = Date(); var to: Date = Date()
 
     var forumID: String? = null
 
@@ -41,7 +40,7 @@ class NewEventActivity : AppCompatActivity() {
 
         forumID = intent.getStringExtra("forumID")
         from = roundUp(from)
-        to = roundUp(from)
+        to = roundUp(Date(from.time))
 
         preferences =  getSharedPreferences("com.example.classmate.fragments.messages.menu", Context.MODE_PRIVATE)
 
@@ -87,7 +86,7 @@ class NewEventActivity : AppCompatActivity() {
     }
 
     private fun timePick(view: View) {
-        val fragment = TimePickerFragment(if (view === fromTimeTV) from else to, this)
+        val fragment = TimePickerFragment(view == fromTimeTV, from, to, this)
         fragment.show(supportFragmentManager, "datePicker")
     }
 
@@ -143,8 +142,10 @@ class NewEventActivity : AppCompatActivity() {
         }
     }
 
-    internal class TimePickerFragment(var date: Date, var activity: NewEventActivity) :
+    internal class TimePickerFragment(val b: Boolean, var from: Date, var to: Date, var activity: NewEventActivity) :
         DialogFragment(), TimePickerDialog.OnTimeSetListener {
+
+        private val date = if(b) from else to
 
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             return TimePickerDialog(context!!, this, date.hours, date.minutes, false)
@@ -153,16 +154,18 @@ class NewEventActivity : AppCompatActivity() {
         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
             date.hours = hourOfDay
             date.minutes = minute
+            if(b && to.time < from.time) {
+                to.time = roundUp(Date(from.time)).time
+            }
             activity.setTextViews()
         }
     }
 
     companion object {
 
-        fun roundUp(date: Date?): Date {
-            date!!.time = date.time + 3600000
-            date.minutes = 0
-            date.seconds = 0
+        fun roundUp(date: Date): Date {
+            date.time += 3600000
+            date.time -= date.time % 3600000
             return date
         }
 

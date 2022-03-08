@@ -28,4 +28,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/todo" />
 
+
+
+    <TextView
+        android:id="@+id/empty_events_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:text="There aren't any events going on right now.\n\n\nUse the add button below to create a new event for this club."
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <ImageView
+        android:id="@+id/events_down_arrow_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/ic_baseline_arrow_downward_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/add_event_button"
+        app:layout_constraintEnd_toEndOf="@+id/add_event_button"
+        app:layout_constraintStart_toStartOf="@+id/add_event_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

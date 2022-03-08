@@ -7,11 +7,6 @@
         android:title="@string/title_profile" />
 
     <item
-        android:id="@+id/navigation_calendar"
-        android:icon="@drawable/ic_baseline_calendar_today_24"
-        android:title="@string/title_calendar" />
-
-    <item
         android:id="@+id/navigation_messages"
         android:icon="@drawable/ic_baseline_message_24"
         android:title="@string/title_messages" />

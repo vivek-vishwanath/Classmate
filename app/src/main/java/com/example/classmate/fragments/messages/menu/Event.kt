@@ -1,11 +1,14 @@
 package com.example.classmate.fragments.messages.menu;
 
+import android.graphics.Color
 import com.example.classmate.fragments.profile.Course
 import com.google.firebase.Timestamp
 import java.io.*
 import java.util.*
 
 data class Event(val name: String, val forumID: String, val description: String, val location: String, val from: Date, val to: Date) : Serializable, Comparable<Event> {
+
+    val color: Int = Color.CYAN
 
     companion object {
 

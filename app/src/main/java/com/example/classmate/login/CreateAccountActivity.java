@@ -52,19 +52,29 @@ public class CreateAccountActivity extends AppCompatActivity {
         String firstName = firstNameET.getText().toString();
         String lastName = lastNameET.getText().toString();
         String email = emailET.getText().toString();
-        int grade = Integer.parseInt(gradeET.getText().toString());
         String password = passwordET.getText().toString();
-        User user = new User(firstName, lastName, email, grade);
         String confirmPassword = confirmPasswordET.getText().toString();
+        int grade;
+
+        User user;
+        try {
+            assert !firstName.equals("");
+            assert !lastName.equals("");
+            assert !password.equals("");
+            assert password.equals(confirmPassword);
+            grade = Integer.parseInt(gradeET.getText().toString());
+            user = new User(firstName, lastName, email, grade);
+        } catch (Throwable e) {
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
+            }
+            return;
+        }
 
         preferences.edit().putString("name", firstName + " " + lastName).apply();
         preferences.edit().putString("email", email).apply();
         preferences.edit().putInt("grade", grade).apply();
 
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
-            return;
-        }
         Intent intent = new Intent(this, AddCoursesActivity.class);
         intent.putExtra("user", user);
         intent.putExtra("password", password);
@@ -73,16 +83,10 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_enter, R.anim.slide_exit);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1 && data != null) {
+        if (requestCode == 1 && data != null) {
             finish();
         }
     }

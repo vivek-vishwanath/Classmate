@@ -11,7 +11,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.classmate.NavigationActivity;
-import com.example.classmate.VerticalSpacingItemDecorator;
+import com.example.classmate.objects.VerticalSpacingItemDecorator;
 import com.example.classmate.fragments.profile.CourseListAdapter;
 import com.example.classmate.fragments.profile.User;
 import com.example.classmate.statics.Bitmaps;
@@ -160,5 +159,11 @@ public class AddCoursesActivity extends AppCompatActivity {
         if(requestCode == 1 && data != null) {
             finish();
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_enter, R.anim.slide_exit);
     }
 }
